@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .panel.panel-primary
+        .panel-heading
+          h3
+            a.btn.btn-info #{keyword}
+        .panel-body
+          each item in movies
+            .col-md-2
+              .thumbnail
+                a(href="/movie/#{item._id}")
+                  img(src="#{item.poster}",alt="#{item.title}")
+                .caption
+                  h4 #{itle}
+                    p: a.btn.btn-primary(href="/movie/#{item._id}",role="button") 观看预告片
+      ul.pagination
+        -for (var i =1 ;i<=totoalPage;i++ ) {
+          -if(currentPage==i){
+            li.active
+              span #{currentPage}
+
+          -}else{
+            li
+              a(href="/results?p=#{i}") #{i}
+          -}
+        -}
+        
