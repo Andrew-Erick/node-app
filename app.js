@@ -36,7 +36,7 @@ app.use(multiparty()) //引入中间件
     /*app.use(session({secret: 'imooc',resave: true,saveUninitialized: true})) /*/
 app.use(session({
     secret: 'imooc',
-    store: new mongoStore({te
+    store: new mongoStore({
         url: dbUrl,
         collection: 'sessions'
     }),
