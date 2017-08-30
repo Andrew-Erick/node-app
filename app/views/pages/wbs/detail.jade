@@ -1,0 +1,32 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-22.ml-sm-auto.col-md-22.pt-2(role="main")
+        h4 WBS详情
+        hr
+        form.form-horizontal
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label ID
+            .col-sm-4
+              p.form-control-static(name="id") #{wbs.id}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label wbs编号
+            .col-sm-4
+              p.form-control-static(name="number") #{wbs.number}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label WBS工作包
+            .col-sm-4
+              p.form-control-static(name="name") #{wbs.name}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label  上层WBS
+            .col-sm-4
+              p.form-control-static(name="upper_wbs") #{wbs.upper_wbs==undefined?"":wbs.upper_wbs.name}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 所属OBS
+            .col-sm-4
+              p.form-control-static(name="upper_obs") #{wbs.upper_obs==undefined?"":wbs.upper_obs.name}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 所属PBS
+            .col-sm-4
+              p.form-control-static(name="upper_pbs") #{wbs.upper_pbs==undefined?"":wbs.upper_pbs.name}

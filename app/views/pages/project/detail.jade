@@ -1,0 +1,25 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
+        h3 项目概况
+        hr
+        form.form-horizontal
+            .form-group
+                label.col-sm-1.col-sm-offset-2.control-label 项目ID
+                .col-sm-4
+                  p.form-control-static(name="id") #{project.id}
+            .form-group
+                label.col-sm-1.col-sm-offset-2.control-label 项目名称
+                .col-sm-4
+                  p.form-control-static(name="name") #{project.name}
+            .form-group
+                label.col-sm-1.col-sm-offset-2.control-label 项目背景
+                .col-sm-4
+                  p.form-control-static(name="background") #{project.background}
+            .form-group
+                label.col-sm-1.col-sm-offset-2.control-label 所属WBS
+                .col-sm-4
+                  p.form-control-static(name="wbs") #{project.wbs.name}
+        

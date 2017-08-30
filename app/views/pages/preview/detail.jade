@@ -1,0 +1,25 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
+        h4 研制程序-评审门信息
+        hr
+      form.form-horizontal
+          .form-group
+              label.col-sm-1.col-sm-offset-2.control-label ID
+              .col-sm-4
+                p.form-control-static(name="id",type="text") #{preview.id}
+          .form-group
+              label.col-sm-1.col-sm-offset-2.control-label 阶段名称
+              .col-sm-4
+                p.form-control-static(name="name") #{preview.name} 
+          .form-group
+              label.col-sm-1.col-sm-offset-2.control-label 准入准则
+              .col-sm-4
+                p.form-control-static(name="rules") #{preview.rules}
+          .form-group
+              label.col-sm-1.col-sm-offset-2.control-label 评审要求
+              .col-sm-4
+                p.form-control-static(name="standard") #{preview.standard}
+        

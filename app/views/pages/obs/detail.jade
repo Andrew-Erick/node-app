@@ -1,0 +1,25 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
+        h4 项目-OBS
+        hrs
+        form.form-horizontal
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label ID
+            .col-sm-4
+              p.form-control-static(name="id") #{obs.id}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label IPT团队编号
+            .col-sm-4
+              p.form-control-static(name="number") #{obs.number}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 团队名称
+            .col-sm-4
+              p.form-control-static(name="name") #{obs.name}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label  上层团队
+            .col-sm-4
+              p.form-control-static(name="upper_obs") #{obs.upper_obs==undefined?"":obs.upper_obs.name}                  
+        

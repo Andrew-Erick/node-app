@@ -1,0 +1,64 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
+        h3 项目概况
+        hr
+        #projectToolbar
+          button#projectRemove.btn.btn-danger(disabled)
+            i.oi.oi-trash 删除
+          span &nbsp;&nbsp;
+          a.btn.btn-info(href="#",data-toggle="modal",data-target="#projectModal")#projectAdd
+            i.oi.oi-plus 添加
+          span &nbsp;&nbsp;
+          select.form-control-static
+            option(value="") Export Basic
+            option(value="all") Export All
+            option(value="selected") Export Selected
+        table(data-toggle="table",data-toolbar="#projectToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-url="/project/data",data-data-type="json",data-method="get")#projectTable
+          thead
+            tr
+              th(data-checkbox='true') 
+              //- th(data-field="number",data-sortable="true") 编号
+              th(data-field="id",data-sortable="true") 项目ID
+              th(data-field="name",data-sortable="true") 项目名称
+              th(data-field="background",data-sortable="true",data-width="40%") 项目背景
+              th(data-field="rules",data-sortable="true",data-width="35%") 项目目标与约束 
+              th(data-field="wbs",data-sortable="true" data-formatter="wbsFormatter") 所属WBS
+              th(data-field="pbs",data-sortable="true" data-formatter="pbsFormatter") 所属PBS
+              th(data-field="obs",data-sortable="true" data-formatter="obsFormatter") 所属OBS
+              th(data-field="action",data-formatter="projectFormatter"
+              data-events="projectActionEvents",data-width="5%") 操作
+   #projectModal.modal.fade
+    .modal-dialog
+        .modal-content
+          form.form-horizontal(role="form",data-add="true")#projectForm
+            .modal-header
+              h4 项目概况
+            .modal-body 
+              .form-group
+                  label.col-sm-2.control-label 项目ID
+                  .col-sm-10
+                    input.form-control(name="id",type="text")
+                    input.form-control.hidden(name="_id",type="text")
+              .form-group
+                  label.col-sm-2.control-label 项目名称
+                  .col-sm-10
+                    input.form-control(name="name",type="text")
+              .form-group
+                  label.col-sm-2.control-label 项目背景
+                  .col-sm-10
+                    textarea.form-control(name="background",type="text",rows="6")
+              .form-group
+                  label.col-sm-2.control-label 所属WBS
+                  .col-sm-10
+                    select.form-control(name="wbs")
+                      option(value="-1") -------------------------请选择该项目所属WBS------------------------------
+                      each wb in wbs
+                        option(value=wb._id) #{wb.name}
+            .modal-footer
+                button.btn.btn-deafult(type="button",data-dismiss="modal") 关闭
+                button.btn.btn-success(type="submit") 保存 
+  script(src='js/project.js')
+        

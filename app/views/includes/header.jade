@@ -9,23 +9,77 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
     div.collapse.navbar-collapse#navbarsExampleDefault
         ul.navbar-nav.nav
             li.nav-item.dropdown
-                a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 企业过程
+                a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 企业过程资产库
                     span.caret
                 ul.dropdown-menu(role="menu")
-                    li
-                        a(href='/activities') 活动级
+                    li.dropdown-submenu
+                        a(href='#') 通用研制程序
+                        ul.dropdown-menu
+                            li
+                                a(href="/stage") 产品研制阶段
+                            li.divider(role="separator")
+                            li 
+                                a(href="/preview") 产品评审门
                     li.divider(role="separator")
                     li
-                        a.dropdown-item(href='') 研制程序
+                        a.dropdown-item(href='/activity') 通用研制程序过程集
+                    li.divider(role="separator")
+                    li
+                        a.dropdown-item(href='#') 研制活动工具方法
             li.nav-item.dropdown
-                a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 项目活动
+                a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 项目中心
                     span.caret
                 ul.dropdown-menu(role="menu")
                     li
-                        a.dropdown-item(href='#') 已有
-                     li.divider(role="separator")
-                    li
-                        a.dropdown-item(href='#') 新建
+                        a.dropdown-item(href='#') 新建项目
+                        //- a.dropdown-item(href='/project') 新建项目
+                    each item in projects
+                        li.divider(role="separator")
+                        li.dropdown-submenu
+                            a.dropdown-item(href='#') #{item.name}
+                            ul.dropdown-menu
+                                li
+                                    //- a.dropdown-item(href='/project') 项目概况
+                                    a.dropdown-item(href='#') 项目概况
+                                li.divider(role="separator")
+                                li
+                                    a.dropdown-item(href='#') 项目集成立计划
+                                    //- a.dropdown-item(href='/projectserver') 项目集成立计划
+                                li.divider(role="separator")
+                                li
+                                    a.dropdown-item(href='#') 项目任务系统
+                        
+                        
+            //- li.nav-item.dropdown
+            //-     a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 项目
+            //-         span.caret
+            //-     ul.dropdown-menu(role="menu")
+            //-         li
+            //-             a.dropdown-item(href='/project') 项目概况
+            //-         li.divider(role="separator")
+            //-         li
+            //-             a.dropdown-item(href='/pbs') 项目PBS
+            //-         li.divider(role="separator")
+            //-         li
+            //-             a.dropdown-item(href='/wbs') 项目WBS
+            //-         li.divider(role="separator")
+            //-         li
+            //-             a.dropdown-item(href='/obs') 项目OBS
+            //-         li.divider(role="separator")
+            //-         li
+            //-             a.dropdown-item(href='/obsuser') 项目OBS-人员
+            //- li.nav-item.dropdown
+            //-     a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 项目管理
+            //-         span.caret
+            //-     ul.dropdown-menu(role="menu")
+            //-         li
+            //-             a.dropdown-item(href='/projectserver') project
+            //-         li.divider(role="separator")
+            //-         li
+            //-             a.dropdown-item(href='/jira') 任务表单
+            //-         li.divider(role="separator")
+            //-         li
+            //-             a.dropdown-item(href='/jiratask') 评审任务单
         p.navbar-text.navbar-right  
             if user
                 span 欢迎您,#{user.name}
@@ -35,10 +89,10 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
                 a.navbar-btn(href="#",data-toggle="modal",data-target="#signupModal") 注册
                 span &nbsp;|&nbsp;
                 a.navbar-btn(href="#",data-toggle="modal",data-target="#signinModal") 登录
-        span &nbsp;&nbsp;
-        form.navbar-form.navbar-right
-            input.form-control.mr-sm-2(type='text',placeholder='search',arial-label='Search')
-            button.btn.btn-outline-success.my-2.my-sm-0(type='submit') 检索
+        //- span &nbsp;&nbsp;
+        //- form.navbar-form.navbar-right
+        //-     input.form-control.mr-sm-2(type='text',placeholder='search',arial-label='Search')
+        //-     button.btn.btn-outline-success.my-2.my-sm-0(type='submit') 检索
 
  #signupModal.modal.fade
     .modal-dialog

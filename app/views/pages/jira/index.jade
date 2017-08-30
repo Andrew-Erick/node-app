@@ -3,7 +3,7 @@ block content
   .container-fluid
     .row
       main.col-sm-12.ml-sm-auto.col-md-12.pt-3(role="main")
-        h1 企业过程
+        h3 企业级-任务项信息
         hr
         #activityToolbar
           button#activityRemove.btn.btn-danger(disabled)
@@ -23,7 +23,7 @@ block content
               //- th(data-field="number",data-sortable="true") 编号
               th(data-field="id",data-sortable="true") ID
               th(data-field="level",data-sortable="true") 活动层级
-              th(data-field="upper_activity",data-sortable="true") 上层活动
+              th(data-field="upper_activity",data-sortable="true") 上层活动ID
               th(data-field="activity_number",data-sortable="true") 活动编号
               th(data-field="activity",data-sortable="true") 活动 
               th(data-field="activity_description",data-sortable="true",data-editable="true") 活动描述 
@@ -46,63 +46,79 @@ block content
             .modal-body 
               .form-group
                   label.col-sm-2.control-label ID
-                  .col-sm-10
+                  .col-sm-8
                     input.form-control(name="id",type="text")
               .form-group
                   label.col-sm-2.control-label 活动层级
-                  .col-sm-10
-                    input.form-control(name="level",type="text")
+                  .col-sm-8
+                    select.form-control(name="level")
+                      option(value="1") 1
+                      option(value="2") 2
+                      option(value="3") 3
               .form-group
-                  label.col-sm-2.control-label 上层活动
-                  .col-sm-10
-                    input.form-control(name="upper_activity",type="text")
+                  label.col-sm-2.control-label 上层活动ID
+                  .col-sm-8
+                    select.form-control(name="upper_activity")
+                      option(value="1") 1
+                      option(value="2") 2
+                      option(value="3") 3
+                      option(value="4") 4
+                      option(value="5") 5
               .form-group
                   label.col-sm-2.control-label 活动编号
-                  .col-sm-10
+                  .col-sm-8
                     input.form-control(name="activity_number",type="text")
               .form-group
                   label.col-sm-2.control-label 活动
-                  .col-sm-10
+                  .col-sm-8
                     input.form-control(name="activity",type="text")
               .form-group
                   label.col-sm-2.control-label 活动描述
-                  .col-sm-10
-                    input.form-control(name="activity_description",type="text")
+                  .col-sm-8
+                    textarea.form-control(name="activity_description",type="text")
               .form-group
                   label.col-sm-2.control-label 活动类型
-                  .col-sm-10
-                    input.form-control(name="type",type="text")
+                  .col-sm-8
+                    select.form-control(name="type",type="text")
+                      option(value="1") 飞机级
+                      option(value="2") 系统级
               .form-group
                   label.col-sm-2.control-label 输入
-                  .col-sm-10
-                    input.form-control(name="input",type="text")
+                  .col-sm-8
+                    textarea.form-control(name="input",type="text")
               .form-group
                   label.col-sm-2.control-label 输出
-                  .col-sm-10
-                    input.form-control(name="output",type="text")
+                  .col-sm-8
+                    textarea.form-control(name="output",type="text")
               .form-group
                   label.col-sm-2.control-label 任务
-                  .col-sm-10
-                    input.form-control(name="task",type="text")
+                  .col-sm-8
+                    textarea.form-control(name="task",type="text",rows="3")
               .form-group
                   label.col-sm-2.control-label 执行人
-                  .col-sm-10
-                    input.form-control(name="executor",type="text")
+                  .col-sm-8
+                    select.form-control(name="executor")
+                      option(value="1") 市场研究
+                      option(value="2") 系统工程
+                      option(value="3") 市场和销售
+                      option(value="4") 总体气动
+                      option(value="5") 各系统工作包
+
               .form-group
                   label.col-sm-2.control-label 所处阶段
-                  .col-sm-10
+                  .col-sm-8
                     input.form-control(name="stage",type="text")
               .form-group
                   label.col-sm-2.control-label 条线
-                  .col-sm-10
+                  .col-sm-8
                     input.form-control(name="line",type="text")
               .form-group
                   label.col-sm-2.control-label 工具
-                  .col-sm-10
-                    input.form-control(name="tool",type="text")
+                  .col-sm-8
+                     input.form-control(name="tool",type="text")
               .form-group
                   label.col-sm-2.control-label 方法
-                  .col-sm-10
+                  .col-sm-8
                     input.form-control(name="method",type="text")
             .modal-footer
                 button.btn.btn-deafult(type="button",data-dismiss="modal") 关闭

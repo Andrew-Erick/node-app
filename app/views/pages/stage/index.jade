@@ -1,0 +1,72 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-3(role="main")
+        h4 产品研制阶段
+        hr
+        #stageToolbar
+          button#stageRemove.btn.btn-danger(disabled)
+            i.oi.oi-trash 删除
+          span &nbsp;&nbsp;
+          a.btn.btn-info(href="#",data-toggle="modal",data-target="#stageModal")#stageAdd
+            i.oi.oi-plus 添加
+          span &nbsp;&nbsp;
+          select.form-control-static
+            option(value="") Export Basic
+            option(value="all") Export All
+            option(value="selected") Export Selected
+        table(data-toggle="table",data-toolbar="#stageToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-url="/stage/data",data-data-type="json",data-method="get")#stageTable
+          thead
+            tr
+              th(data-checkbox='true') 
+              //- th(data-field="number",data-sortable="true") 编号
+              th(data-field="id",data-sortable="true") ID
+              th(data-field="name",data-sortable="true") 阶段名称
+              th(data-field="stage_description",data-sortable="true",data-width="30%") 阶段描述
+              th(data-field="output",data-sortable="true",data-width="55%") 输出
+              th(data-field="preview_in",data-sortable="true",data-formatter="previewFormatter") 准入评审
+              th(data-field="preview_out",data-sortable="true",data-formatter="previewFormatter") 准出评审 
+              th(data-field="action",data-formatter="stageFormatter"
+              data-events="stageActionEvents") 操作
+   #stageModal.modal.fade
+    .modal-dialog
+        .modal-content
+          form.form-horizontal(role="form",data-add="true")#stageForm
+            .modal-header
+              h4 产品研制阶段
+            .modal-body 
+              .form-group
+                  label.col-sm-2.control-label ID
+                  .col-sm-10
+                    input.form-control(name="id",type="text")
+                    input.form-control.hidden(name="_id",type="text")
+              .form-group
+                  label.col-sm-2.control-label 阶段名称
+                  .col-sm-10
+                    input.form-control(name="name",type="text")
+              .form-group
+                  label.col-sm-2.control-label 阶段描述
+                  .col-sm-10
+                    textarea.form-control(name="stage_description",type="text",rows="4")
+              .form-group
+                  label.col-sm-2.control-label 输出
+                  .col-sm-10
+                    textarea.form-control(name="output",type="text",rows="4")
+              .form-group
+                  label.col-sm-2.control-label 准入评审
+                  .col-sm-10
+                    select.form-control(name="preview_in")
+                      each stage in previews
+                        option(value=stage._id) #{stage.name}
+              .form-group
+                  label.col-sm-2.control-label 准出评审
+                  .col-sm-10
+                    select.form-control(name="preview_out")
+                      each stage in previews
+                        option(value=stage._id) #{stage.name}
+            .modal-footer
+                button.btn.btn-deafult(type="button",data-dismiss="modal") 关闭
+                button.btn.btn-success(type="submit") 保存 
+  script(src='js/stage.js')
+        
