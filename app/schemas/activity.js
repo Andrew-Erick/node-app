@@ -1,13 +1,18 @@
 var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 var ObjectId=Schema.Types.ObjectId;
+
 var ActivitySchema=new mongoose.Schema({
     id:Number,
+    pid:{
+      type:ObjectId,
+      ref:'Activity',
+      default:null
+    },
     level:Number,
-    upper_activity:String,
-    activity_number:Number,
+    activity_number:String,
     activity:String,
-    activity_description:String,
+    description:String,
     type:Number,
     input:String,
     output:String,
@@ -37,6 +42,10 @@ ActivitySchema.pre('save',function(next){
   }else{
     this.meta.updateAt=Date.now();
   }
+  if(this.level==null){
+    this.level=1;
+  }
+  
   next();
 });
 

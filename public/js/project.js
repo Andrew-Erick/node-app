@@ -12,7 +12,7 @@ $(function(){
   var $form=$('#projectForm');
   var $modal=$('#projectModal');
   window.projectFormatter=function(value,row,index){
-    return ['<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>'].join('');
+    return ['<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>','&nbsp;','<span class="export" title="export" data-toggle="modal" >','<i class="oi oi-spreadsheet"></i></span>'].join('');
   };
    window.wbsFormatter=function(value,row,index){
     return value==undefined?"":("<a target='_blanket' href='/wbs/detail?id="+value._id+"'>"+value.name+"</a>");
@@ -46,6 +46,18 @@ $(function(){
             values: [row.id]
         });     
       })
+    },
+    'click .export':function(e,value,row,index){
+      e.preventDefault();
+      var wbs=row.wbs;
+      if(wbs!=undefined&&wbs.upper_pbs!=undefined&&wbs.upper_pbs.type!=undefined){
+        var data={id:wbs.upper_pbs._id,project:row._id};
+        $.post("/projectserver/export",data).done(function(res){
+            $table.bootstrapTable('updateRow',{index:index,row:res});  
+        })
+      }
+
+      // 
     }
   }
   $table.on('check.bs.table uncheck.bs.table ' +
@@ -136,6 +148,7 @@ $(function(){
         }
       },
       name:{},
+      _id:{},
       background:{},
       rules:{}
     }

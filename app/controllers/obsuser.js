@@ -2,7 +2,8 @@ var Obsuser=require('../models/obsuser');
 var Obs=require('../models/obs');
 var Project = require('../models/project')
 var _ = require('underscore');
-
+var URL=require('url');
+var querystring=require('querystring');
 // obsuserlist page
 exports.index=function(req,res){
   Obs.fetch(function(err,obs){
@@ -84,4 +85,22 @@ exports.delete=function(req,res){
       }
     })
   }
+}
+exports.detail=function(req,res){
+  var arg=URL.parse(req.url).query;
+  var id=querystring.parse(arg).id;
+  Obsuser.findById(id,function(err,obsuser){
+    if(err){
+      console.log(err)
+    }
+    Obsuser.populate(obsuser,[{
+      path:'upper_obs',
+      model:'Obs'
+    }],function(err,obsuser){
+      getProject(function(projects){
+        res.render('obsuser/detail',{obsuser:obsuser,projects:projects})
+      })
+
+    });
+  })
 }

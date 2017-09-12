@@ -32,8 +32,8 @@ exports.save=function(req,res){
   var id=req.body._id;
   var pbsObj=req.body;
   var _pbs;
-  getLevel(pbsObj.upper_pbs,0,function(level){
-    pbsObj.level=level;
+  // getLevel(pbsObj.upper_pbs,0,function(level){
+  //   pbsObj.level=level;
     if(typeof id!="undefined"){
       Pbs.findById(id,function(err,pbs){
         if(err){
@@ -67,24 +67,24 @@ exports.save=function(req,res){
         })
     }
     
-  })
-  function getLevel(id,i,next){
-    if(id==""||id==undefined||id==null){
-      next(i);
-    }else{
-      Pbs.findById(id,function(err,res){
-        if(err){
-          console.log(err);
-        }
-        if(res==""||res==undefined){
-          next(i);
-        }else{
-          getLevel(res.upper_pbs,++i,next);
-        }    
-      });
+  // })
+  // function getLevel(id,i,next){
+  //   if(id==""||id==undefined||id==null){
+  //     next(i);
+  //   }else{
+  //     Pbs.findById(id,function(err,res){
+  //       if(err){
+  //         console.log(err);
+  //       }
+  //       if(res==""||res==undefined){
+  //         next(i);
+  //       }else{
+  //         getLevel(res.upper_pbs,++i,next);
+  //       }    
+  //     });
       
-    }
-  }
+  //   }
+  // }
 }
 exports.delete=function(req,res){
   var ids=req.body.ids;
@@ -106,14 +106,12 @@ exports.detail=function(req,res){
   Pbs.findById(id,function(err,pbs){
     if(err){
       console.log(err)
-    }
-    Pbs.populate(pbs,{
-        path:'upper_pbs',
-        model:'Pbs',
-      },function(err,pbs){
+    }   
+    Pbs.populate(pbs,[{path:'pid',model:'Pbs'}],function(err,pbs){
       if(err){
         console.log(err)
       }
+      console.log(pbs);
       getProject(function(projects){
         res.render('pbs/detail',{pbs:pbs,projects:projects})
       })

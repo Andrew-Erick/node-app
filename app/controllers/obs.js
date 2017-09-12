@@ -32,58 +32,37 @@ exports.save=function(req,res){
   var id=req.body._id;
   var obsObj=req.body;
   var _obs;
-  getLevel(obsObj.upper_obs,0,function(level){
-    obsObj.level=level;
-    if(typeof id!="undefined"){
-      Obs.findById(id,function(err,obs){
+  if(typeof id!="undefined"){
+    Obs.findById(id,function(err,obs){
+      if(err){
+        console.log(err)
+      }
+      _obs=_.extend(obs,obsObj);
+      _obs.save(function(err,obs){
         if(err){
           console.log(err)
         }
-        _obs=_.extend(obs,obsObj);
-        _obs.save(function(err,obs){
+        Obs.findById(obs._id,function(err,obs){
           if(err){
             console.log(err)
           }
-          Obs.findById(obs._id,function(err,obs){
+          res.send(obs);
+        })
+      })
+    })
+  }else{
+    _obs=new Obs(obsObj);
+    _obs.save(function(err,obs){
+      if(err){
+        console.log(err)
+      }
+       Obs.findById(obs._id,function(err,obs){
             if(err){
               console.log(err)
             }
             res.send(obs);
           })
-        })
       })
-    }else{
-      _obs=new Obs(obsObj);
-      _obs.save(function(err,obs){
-        if(err){
-          console.log(err)
-        }
-         Obs.findById(obs._id,function(err,obs){
-              if(err){
-                console.log(err)
-              }
-              res.send(obs);
-            })
-        })
-    }
-    
-  })
-  function getLevel(id,i,next){
-    if(id==""||id==undefined||id==null){
-      next(i);
-    }else{
-      Obs.findById(id,function(err,res){
-        if(err){
-          console.log(err);
-        }
-        if(res==""||res==undefined){
-          next(i);
-        }else{
-          getLevel(res.upper_obs,++i,next);
-        }    
-      });
-      
-    }
   }
 }
 exports.delete=function(req,res){
@@ -107,8 +86,14 @@ exports.detail=function(req,res){
     if(err){
       console.log(err)
     }
-    getProject(function(projects){
-      res.render('obs/detail',{obs:obs,projects:projects})
-    })
+    Obs.populate(obs,[{
+      path:'pid',
+      model:'Obs'
+    }],function(err,obs){
+      getProject(function(projects){
+        res.render('obs/detail',{obs:obs,projects:projects})
+      })
+
+    });
   })
 }

@@ -6,9 +6,10 @@ var ObsSchema=new mongoose.Schema({
     number:String,
     name:String,
     level:Number,
-    upper_obs:{
+    pid:{
       type:ObjectId,
-      ref:'Obs'
+      ref:'Activity',
+      default:null
     },
     type:Number,
     meta:{
@@ -29,6 +30,9 @@ ObsSchema.pre('save',function(next){
   }else{
     this.meta.updateAt=Date.now();
   }
+  if(this.level==null){
+    this.level=1;
+  }
   next();
 });
 
@@ -37,7 +41,6 @@ ObsSchema.statics={
     return this
         .find({})
         .sort('meta.updateAt')
-        .populate('upper_obs')
         .exec(cb)
   },
   findById:function(id,cb){
@@ -45,7 +48,6 @@ ObsSchema.statics={
           .findOne({
               _id: id
           })
-          .populate('upper_obs')
           .exec(cb)
   }
 }

@@ -115,12 +115,14 @@ module.exports = function(app) {
     app.get('/obsuser/data',Obsuser.list);
     app.post('/obsuser/edit',multipartyMiddleware,Obsuser.save);
     app.delete('/obsuser/delete',Obsuser.delete);
+    app.get('/obsuser/detail',Obsuser.detail);
 
 
     app.get('/projectserver',Projectserver.index)
     app.get('/projectserver/data',Projectserver.list);
     app.post('/projectserver/edit',multipartyMiddleware,Projectserver.save);
     app.delete('/projectserver/delete',Projectserver.delete);
+    app.post('/projectserver/export',Projectserver.export);
 
     app.get('/jira',Jira.index)
     app.get('/jiratask',Jiratask.index)

@@ -2,24 +2,118 @@ extends ../../layout
 block content
   .container-fluid
     .row
-      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
-        h3 项目概况
-        hr
-        form.form-horizontal
-            .form-group
-                label.col-sm-1.col-sm-offset-2.control-label 项目ID
-                .col-sm-4
+      .col-lg-6
+        .panel.panel-warning
+          .panel-heading
+            h4.panel-title 项目概况
+          .panel-body
+            form.form-horizontal
+              .form-group
+                label.col-sm-3.control-label 项目ID
+                .col-sm-8
                   p.form-control-static(name="id") #{project.id}
-            .form-group
-                label.col-sm-1.col-sm-offset-2.control-label 项目名称
-                .col-sm-4
+              .form-group
+                label.col-sm-3.control-label 项目名称
+                .col-sm-8
                   p.form-control-static(name="name") #{project.name}
-            .form-group
-                label.col-sm-1.col-sm-offset-2.control-label 项目背景
-                .col-sm-4
+              .form-group
+                label.col-sm-3.control-label 项目背景
+                .col-sm-8
                   p.form-control-static(name="background") #{project.background}
-            .form-group
-                label.col-sm-1.col-sm-offset-2.control-label 所属WBS
-                .col-sm-4
+              .form-group
+                label.col-sm-3.control-label 所属WBS
+                .col-sm-8
                   p.form-control-static(name="wbs") #{project.wbs.name}
+      .col-lg-6
+        .panel.panel-success
+          .panel-heading
+            h4.panel-title PBS信息
+          .panel-body
+            form.form-horizontal
+              .form-group
+                label.col-sm-3.control-label ID
+                .col-sm-8
+                  p.form-control-static(name="id") #{pbs.id}
+              .form-group
+                label.col-sm-3.control-label PBS编号
+                .col-sm-8
+                  p.form-control-static(name="number") #{pbs.number}
+              .form-group
+                label.col-sm-3.control-label PBS名称
+                .col-sm-8
+                  p.form-control-static(name="name") #{pbs.name}
+              .form-group
+                label.col-sm-3.control-label ATA章节
+                .col-sm-8
+                  p.form-control-static(name="ata") #{pbs.ata}
+              .form-group
+                label.col-sm-3.control-label  上层PBS
+                .col-sm-8
+                  p.form-control-static(name="upper_pbs") #{pbs.upper_pbs==undefined?"":pbs.upper_pbs.name}
+              .form-group
+                label.col-sm-3.control-label 类别
+                .col-sm-8
+                   case pbs.type
+                      when 1
+                        p.form-control-static(name="type") 飞机
+                      when 2
+                        p.form-control-static(name="type") 飞机系统
+                      when 3
+                        p.form-control-static(name="type") 飞机设备
+                      default
+                         p.form-control-static(name="type")     
+        
+    .row
+      .col-lg-6
+        .panel.panel-success
+          .panel-heading
+            h4.panel-title WBS信息
+          .panel-body
+            form.form-horizontal
+              .form-group
+                label.col-sm-3.control-label ID
+                .col-sm-8
+                  p.form-control-static(name="id") #{wbs.id}
+              .form-group
+                label.col-sm-3.control-label wbs编号
+                .col-sm-8
+                  p.form-control-static(name="number") #{wbs.number}
+              .form-group
+                label.col-sm-3.control-label WBS工作包
+                .col-sm-8
+                  p.form-control-static(name="name") #{wbs.name}
+              .form-group
+                label.col-sm-3.control-label  上层WBS
+                .col-sm-8
+                  p.form-control-static(name="upper_wbs") #{wbs.upper_wbs==undefined?"":wbs.upper_wbs.name}
+              .form-group
+                label.col-sm-3.control-label 所属OBS
+                .col-sm-8
+                  p.form-control-static(name="upper_obs") #{wbs.upper_obs==undefined?"":wbs.upper_obs.name}
+              .form-group
+                label.col-sm-3.control-label 所属PBS
+                .col-sm-8
+                  p.form-control-static(name="upper_pbs") #{wbs.upper_pbs==undefined?"":wbs.upper_pbs.name}
+      .col-lg-6
+        .panel.panel-success
+          .panel-heading
+            h4.panel-title OBS信息
+          .panel-body
+            form.form-horizontal
+              .form-group
+                label.col-sm-3.control-label ID
+                .col-sm-8
+                  p.form-control-static(name="id") #{obs.id}
+              .form-group
+                label.col-sm-3.control-label IPT团队编号
+                .col-sm-8
+                  p.form-control-static(name="number") #{obs.number}
+              .form-group
+                label.col-sm-3.control-label 团队名称
+                .col-sm-8
+                  p.form-control-static(name="name") #{obs.name}
+              .form-group
+                label.col-sm-3.control-label  上层团队
+                .col-sm-8
+                  p.form-control-static(name="upper_obs") #{obs.upper_obs==undefined?"":obs.upper_obs.name}     
         

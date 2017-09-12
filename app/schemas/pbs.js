@@ -7,9 +7,10 @@ var PbsSchema=new mongoose.Schema({
     name:String,
     ata:String,
     level:Number,
-    upper_pbs:{
+    pid:{
       type:ObjectId,
-      ref:'Pbs'
+      ref:'Pbs',
+      default:null
     },
     type:Number,
     meta:{
@@ -30,6 +31,9 @@ PbsSchema.pre('save',function(next){
   }else{
     this.meta.updateAt=Date.now();
   }
+  if(this.level==null){
+    this.level=1;
+  }
   next();
 });
 
@@ -38,7 +42,6 @@ PbsSchema.statics={
     return this
         .find({})
         .sort('meta.updateAt')
-        .populate('upper_pbs')
         .exec(cb)
   },
   findById:function(id,cb){
@@ -46,7 +49,6 @@ PbsSchema.statics={
           .findOne({
               _id: id
           })
-          .populate('upper_pbs')
           .exec(cb)
   }
 }

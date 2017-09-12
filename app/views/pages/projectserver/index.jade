@@ -16,27 +16,28 @@ block content
             option(value="") Export Basic
             option(value="all") Export All
             option(value="selected") Export Selected
-        table(data-toggle="table",data-toolbar="#projectserverToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-url="/projectserver/data",data-data-type="json",data-method="get")#projectserverTable
+        table(data-toggle="table",data-toolbar="#projectserverToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-export="true",data-minimum-count-columns="2",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-data-type="json",data-method="get")#projectserverTable
           thead
             tr
               th(data-checkbox='true') 
-              //- th(data-field="number",data-sortable="true") 编号
-              th(data-field="id",data-sortable="true") ID
-              th(data-field="name",data-sortable="true") 任务名称
-              th(data-field="description",data-sortable="true") 任务描述
-              th(data-field="pbs",data-sortable="true") 所属PBS
-              th(data-field="input",data-sortable="true") 输入 
-              th(data-field="output",data-sortable="true",data-editable="true") 输出 
-              th(data-field="requirement",data-sortable="true",data-visible="false") 任务要求 
-              th(data-field="stage",data-sortable="true" data-formatter="stageFormatter") 关键里程碑
-              th(data-field="tools",data-sortable="true" data-visible="false") 工具 
-              th(data-field="method",data-sortable="true" data-visible="false") 方法
-              th(data-field="resource",data-sortable="true" data-visible="false") 资源名称 
-              th(data-field="plan_start_time",data-sortable="true" data-visible="false") 计划开始时间 
-              th(data-field="plan_end_time",data-sortable="true" data-visible="false") 计划完成时间
-              th(data-field="start_time",data-sortable="true" data-visible="false") 开始时间 
-              th(data-field="end_time",data-sortable="true" data-visible="false") 完成时间
-              th(data-field="action",data-formattor="projectserverActionFormatter",data-events="projectserverActionEvents") 操作
+              //- th(data-field="number",data-sortable="false") 编号
+              th(data-field="id",data-sortable="false") ID
+              th(data-field="name",data-sortable="false") 任务名称
+              th(data-field="description",data-sortable="false") 任务描述
+              th(data-field="pbs",data-sortable="false",data-formatter="pbsFormatter") 所属PBS
+              th(data-field="input",data-sortable="false",data-visible="false") 输入 
+              th(data-field="output",data-sortable="false",data-visible="false") 输出 
+              th(data-field="task",data-sortable="false",data-visible="false") 任务要求 
+              th(data-field="preview",data-sortable="false",data-formatter="previewFormatter") 关键里程碑
+              th(data-field="tool",data-sortable="false",data-visible="false") 工具 
+              th(data-field="method",data-sortable="false",data-visible="false") 方法
+              th(data-field="resource",data-sortable="false",data-formatter="userFormatter") 资源名称 
+              th(data-field="plan_start_time",data-sortable="false" data-visible="true",data-formatter="timeFormatter") 计划开始时间 
+              th(data-field="plan_end_time",data-sortable="false" data-visible="true",data-formatter="timeFormatter") 计划完成时间
+              th(data-field="start_time",data-sortable="false" data-visible="true",data-formatter="timeFormatter") 开始时间 
+              th(data-field="end_time",data-sortable="false" data-visible="true",data-formatter="timeFormatter") 完成时间
+              th(data-field="action",data-formatter="projectserverFormatter"
+              data-events="projectserverActionEvents") 操作
    #projectserverModal.modal.fade
     .modal-dialog
         .modal-content
@@ -44,13 +45,16 @@ block content
             .modal-header
               h4 企业过程信息
             .modal-body 
-              .form-group
-                label.col-sm-2.control-label ID
-                .col-sm-8
-                  input.form-control(name="id",type="text")
+              //- .form-group
+              //-   label.col-sm-2.control-label ID
+              //-   .col-sm-8
+              //-     input.form-control(name="id",type="text")
               .form-group
                 label.col-sm-2.control-label 任务名称
                 .col-sm-8
+                  input.hidden(name="_id",type="text")
+                  input.hidden(name="pid",type="text")
+                  input.hidden(name="level",type="text")
                   input.form-control(name="name",type="text")
               .form-group
                 label.col-sm-2.control-label 任务描述
@@ -73,15 +77,17 @@ block content
               .form-group
                 label.col-sm-2.control-label 任务要求
                 .col-sm-8
-                  input.form-control(name="requirement",type="text")
-              //- .form-group
-              //-   label.col-sm-2.control-label 关键里程碑
-              //-   .col-sm-8
-              //-     input.form-control(name="stage",type="text")
+                  input.form-control(name="task",type="text")
+              .form-group
+                label.col-sm-2.control-label 关键里程碑
+                .col-sm-8
+                  select.form-control(name="preview")
+                    each item in preview
+                      option(value=item._id) #{item.name}
               .form-group
                 label.col-sm-2.control-label 工具
                 .col-sm-8
-                  input.form-control(name="tools",type="text")
+                  input.form-control(name="tool",type="text")
               .form-group
                 label.col-sm-2.control-label 方法
                 .col-sm-8
@@ -89,23 +95,34 @@ block content
               .form-group
                 label.col-sm-2.control-label 资源名称
                 .col-sm-8
-                  input.form-control(name="resource",type="text")
+                  select.form-control(name="resource")
+                    each item in users
+                      option(value=item._id) #{item.name}
               .form-group
                 label.col-sm-2.control-label 计划开始时间
-                .col-sm-8
-                  input.form-control(name="plan_start_time",type="text")
+                .input-group.date.plan_start_time.col-sm-7(data-date="",data-date-format="yyyy-mm-dd hh:ii",data-link-field="dtp_input1",data-link-format="yyyy-mm-dd hh:ii",style="padding-left:17px;")
+                    input.form-control(size=16,type="text",value="",readonly)
+                    span.input-group-addon
+                      span.glyphicon.glyphicon-remove
+                    span.input-group-addon
+                      span.glyphicon.glyphicon-th
+                  input(type="hidden",id="dtp_input1",name="plan_start_time",value="")
               .form-group
                 label.col-sm-2.control-label 计划完成时间
-                .col-sm-8
-                  input.form-control(name="plan_end_time",type="text")
-              .form-group
-                label.col-sm-2.control-label 开始时间
-                .col-sm-8
-                  input.form-control(name="start_time",type="text")
-              .form-group
-                label.col-sm-2.control-label 完成时间
-                .col-sm-8
-                  input.form-control(name="end_time",type="text")
+                .input-group.date.plan_end_time.col-sm-7(data-date="",data-date-format="yyyy-mm-dd hh:ii",data-link-field="dtp_input2",data-link-format="yyyy-mm-dd hh:ii",style="padding-left:15px;")
+                    input.form-control(size=16,type="text",value="",readonly)
+                    span.input-group-addon
+                      span.glyphicon.glyphicon-remove
+                    span.input-group-addon
+                      span.glyphicon.glyphicon-th
+                  input(type="hidden",id="dtp_input2",name="plan_end_time",value="")
+
+              br
+              br
+              br
+              br
+              br
+              br            
             .modal-footer
                 button.btn.btn-deafult(type="button",data-dismiss="modal") 关闭
                 button.btn.btn-success(type="submit") 保存 

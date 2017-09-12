@@ -3,7 +3,7 @@ block content
   .container-fluid
     .row
       main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
-        h3 项目-WBS
+        h4 项目-WBS
         hr
         #wbsToolbar
           button#wbsRemove.btn.btn-danger(disabled)
@@ -16,7 +16,7 @@ block content
             option(value="") Export Basic
             option(value="all") Export All
             option(value="selected") Export Selected
-        table(data-toggle="table",data-toolbar="#wbsToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-url="/wbs/data",data-data-type="json",data-method="get")#wbsTable
+        table(data-toggle="table",data-toolbar="#wbsToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-data-type="json",data-method="get")#wbsTable
           thead
             tr
               th(data-checkbox='true') 
@@ -25,7 +25,6 @@ block content
               th(data-field="number",data-sortable="true") WBS编号
               th(data-field="name",data-sortable="true") WBS工作包
               th(data-field="level",data-sortable="true") 层级 
-              th(data-field="upper_wbs",data-sortable="true",data-formatter="upper_wbsFormatter") 上层WBS 
               th(data-field="upper_obs",data-sortable="true",data-formatter="upper_obsFormatter") 所属OBS 
               th(data-field="upper_pbs",data-sortable="true",data-formatter="upper_pbsFormatter") 所属PBS
               th(data-field="action",data-formatter="wbsFormatter"
@@ -41,6 +40,9 @@ block content
                 label.col-sm-2.control-label ID
                 .col-sm-8
                   input.form-control(name="id",type="text")
+                  input.form-control.hidden(name="_id",type="text")
+                  input.hidden(name="pid",type="text")
+                  input.hidden(name="level",type="text")
               .form-group
                 label.col-sm-2.control-label wbs编号
                 .col-sm-8
@@ -49,10 +51,6 @@ block content
                 label.col-sm-2.control-label WBS工作包
                 .col-sm-8
                   input.form-control(name="name",type="text")
-              .form-group
-                label.col-sm-2.control-label  上层wbs
-                .col-sm-8
-                  select.form-control(name="upper_wbs")
               .form-group
                 label.col-sm-2.control-label 所属obs
                 .col-sm-8

@@ -3,7 +3,7 @@ block content
   .container-fluid
     .row
       main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
-        h3 项目-OBS-人员
+        h4 项目-OBS-人员
         hr
         #obsuserToolbar
           button#obsuserRemove.btn.btn-danger(disabled)
@@ -39,6 +39,7 @@ block content
                 label.col-sm-2.control-label ID
                 .col-sm-8
                   input.form-control(name="id",type="text")
+                  input.form-control.hidden(name="_id",type="text")
               .form-group
                 label.col-sm-2.control-label 姓名
                 .col-sm-8

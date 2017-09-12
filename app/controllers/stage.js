@@ -49,29 +49,41 @@ exports.save=function(req,res){
         if(err){
           console.log(err)
         }
-        Stage.findById(stage._id,function(err,stage){
+          Stage.populate(stage,[{
+          path:'preview_in',
+          model:'Preview',
+        },{
+          path:'preview_out',
+          model:'Preview',
+        }],function(err,pro){
           if(err){
             console.log(err)
           }
-          res.send(stage);
+          res.send(pro);
         })
       })
     })
   }else{
     _stage=new Stage(stageObj);
+    console.log(stageObj)
     _stage.save(function(err,stage){
       if(err){
         console.log(err)
       }
-       Stage.findById(stage._id,function(err,stage){
-            if(err){
-              console.log(err)
-            }
-            res.send(stage);
-          })
+      Stage.populate(stage,[{
+        path:'preview_in',
+        model:'Preview',
+      },{
+        path:'preview_out',
+        model:'Preview',
+      }],function(err,pro){
+        if(err){
+          console.log(err)
+        }
+        res.send(pro);
       })
+    })
   }
-
 }
 
 exports.delete=function(req,res){

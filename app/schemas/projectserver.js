@@ -5,17 +5,37 @@ var ProjectserverSchema=new mongoose.Schema({
     id:String,  
     name:String,  
     description:String, 
-    pbs:String, 
+    pid:{
+      type:ObjectId,
+      ref:'Projectserver',
+      default:null
+    },
+    level:Number,
+    // child:[{
+    //   type:ObjectId,
+    //   ref:'Projectserver'
+    // }],
+    pbs:{
+      type:ObjectId,
+      ref:'Pbs'
+    }, 
     input:String, 
     output:String,  
-    requirement:String, 
-    stage:{
+    task:String, 
+    preview:{
       type:ObjectId,
       ref:'Preview'
     }, 
-    tools:String, 
+    tool:String, 
     method:String,        
-    resource:String,  
+    resource:{
+      type:ObjectId,
+      ref:'Obsuser'
+    },       
+    project:{
+      type:ObjectId,
+      ref:'Project'
+    },  
     plan_start_time:Date, 
     plan_end_time:Date, 
     start_time:Date,  
@@ -38,15 +58,22 @@ ProjectserverSchema.pre('save',function(next){
   }else{
     this.meta.updateAt=Date.now();
   }
+  if(this.level==null){
+    this.level=1;
+  }
   next();
 });
 
 ProjectserverSchema.statics={
-  fetch:function(cb){
+  fetch:function(conditions,cb){
     return this
-        .find({})
+        .find(conditions)
         .sort('meta.updateAt')
-        .populate('upper_projectserver')
+        .populate('pbs')
+        .populate('preview')
+        .populate('pid')
+        .populate('child')
+        .populate('resource')
         .exec(cb)
   },
   findById:function(id,cb){
@@ -55,6 +82,11 @@ ProjectserverSchema.statics={
               _id: id
           })
           .populate('upper_projectserver')
+          .populate('pbs')
+          .populate('preview')
+          .populate('pid')
+          .populate('child')
+          .populate('resource')
           .exec(cb)
   }
 }

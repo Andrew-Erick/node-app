@@ -1,5 +1,4 @@
-$(function(){
-  var json=[{
+var json=[{
     "id":1,
     "number":"P0", 
     "wbs_package":"飞机", 
@@ -15,43 +14,43 @@ $(function(){
   var $form=$('#wbsForm');
   var $modal=$('#wbsModal');
   window.wbsFormatter=function(value,row,index){
-    return ['<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>'].join('');
+    return ['<span class="add" title="add" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-plus"></i></span>','&nbsp;','<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>'].join('');
   };
   window.upper_pbsFormatter=function(value,row,index){
-    return value==null?"":value.name;
+    return value==undefined?"":("<a target='_blanket' href='/pbs/detail?id="+value._id+"'>"+value.name+"</a>");
   };
   window.upper_obsFormatter=function(value,row,index){    
-    return value==null?"":value.name;
+    return value==undefined?"":("<a target='_blanket' href='/obs/detail?id="+value._id+"'>"+value.name+"</a>");
 
   };
-  window.upper_wbsFormatter=function(value,row,index){
-    return value==null?"":value.name;
-  };
-  initUpperWbs();
-  function initUpperWbs(data){
-    $.get("/wbs/data").done(function(res){
-      if(res!=null&&res.length>=0){
-        var dom;
-        if(data){
-          res=res.filter(function(item,i){
-            return item._id!=data;
-          })
-        }
-        dom=res.map(function(item,i){
-          return "<option value='"+item._id+"'>"+item.name+"</option>"
-        }).join("");
-        $("#wbsModal").find("select[name=upper_wbs]").html(dom);
-      }
-    })
-  }
+  // window.upper_wbsFormatter=function(value,row,index){
+  //   return value==null?"":value.name;
+  // };
+  // initUpperWbs();
+  // function initUpperWbs(data){
+  //   $.get("/wbs/data").done(function(res){
+  //     if(res!=null&&res.length>=0){
+  //       var dom;
+  //       if(data){
+  //         res=res.filter(function(item,i){
+  //           return item._id!=data;
+  //         })
+  //       }
+  //       dom=res.map(function(item,i){
+  //         return "<option value='"+item._id+"'>"+item.name+"</option>"
+  //       }).join("");
+  //       $("#wbsModal").find("select[name=upper_wbs]").html(dom);
+  //     }
+  //   })
+  // }
   window.wbsActionEvents = {
     'click .edit': function (e, value, row, index) {
       e.preventDefault();
-      initUpperWbs(row._id)
+      // initUpperWbs(row._id)
       $form.attr({'data-add':'false','data-index':index});
       $form.find('[name]').each(function(i,item){
         var name=$(item).attr('name');
-        if(name=="upper_wbs"||name=="upper_pbs"||name=="upper_obs"){
+        if(name=="upper_pbs"||name=="upper_obs"){
           if(row[name]!=undefined){
             $(item).val(row[name]._id);
           }
@@ -69,7 +68,15 @@ $(function(){
             values: [row.id]
         });     
       })
-  }
+    },
+    'click .add': function (e, value, row, index) {
+      e.preventDefault();
+      // e.stopPropagation();
+      $form.attr({'data-add':'true','data-index':index});
+      //
+      $form.find("input[name=pid]").val(row["_id"]);
+      $form.find("input[name=level]").val(parseInt(row["level"])+1);
+    }
   };
   $table.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table', function () {
@@ -122,7 +129,7 @@ $(function(){
   // func add & edit
   // add
   $add.click(function(){
-    initUpperWbs();
+    // initUpperWbs();
     $form.attr("data-add",true);
     $form.removeAttr("data-index"); 
   });
@@ -130,7 +137,17 @@ $(function(){
   $modal.on('hidden.bs.modal', function() {
     $form.formValidation('resetForm', true);
   });
-
+   $table.bootstrapTable({
+      url:'/wbs/data',
+      pagination: true,
+      treeView: true,
+      treeId:'_id',
+      treeField: "name",
+      treeRootLevel: 1,
+      clickToSelect: false
+      //collapseIcon: "glyphicon glyphicon-triangle-right",//折叠样式
+      //expandIcon: "glyphicon glyphicon-triangle-bottom"//展开样式
+  });
   // form validate
   $form.formValidation({
     framework:'bootstrap',
@@ -157,8 +174,10 @@ $(function(){
           }
         }
       },
+      _id:{},
+      pid:{},
       number:{},
-      wbs_package:{},
+      name:{},
       level:{},
       upper_wbs:{},
       upper_obs:{},
@@ -170,23 +189,25 @@ $(function(){
       var $form=$(e.target);
       var data=$form.serializeObject();
       // 表单reset
+      console.log(data);
       var add=$form.attr("data-add");
-      var index=$form.attr("data-index");
+      var index=$form.attr("data-index")==null?-1:$form.attr("data-index");
+      if(add=="true"){
+        index++;
+      }
+      var action=(add=="true"?"insertRow":"updateRow");
       if(data._id==""||data._id==null){
         delete data._id;
+      }
+      if(data.pid==""||data.pid==null){
+        delete data.pid;
       }
       $.post("/wbs/edit",data).done(function(res){
         // var data=JSON.parse(data);
         if(res!=null){
-          if(add=="true"){
-            $table.bootstrapTable('insertRow',{index:1,row:res});
-          }else{
-            $table.bootstrapTable('updateRow',{index:index,row:res});       
-          }
+          $table.bootstrapTable(action,{index:index,row:res});
           $modal.modal('hide');
           $form.formValidation('resetForm', true);
         }
       })
     })
-
-})

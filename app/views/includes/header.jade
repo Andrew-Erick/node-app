@@ -26,25 +26,38 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
                     li.divider(role="separator")
                     li
                         a.dropdown-item(href='#') 研制活动工具方法
+
             li.nav-item.dropdown
                 a.nav-link.dropdown-toggle(href='#',data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') 项目中心
                     span.caret
                 ul.dropdown-menu(role="menu")
+                    li.dropdown-submenu
+                        a.dropdown-item(href='#') 基础数据 
+                        ul.dropdown-menu
+                            li
+                                a.dropdown-item(href='/pbs') PBS数据
+                            li.divider(role="separator")
+                            li
+                                a.dropdown-item(href='/wbs') WBS数据
+                            li.divider(role="separator")
+                            li
+                                a.dropdown-item(href='/obs') OBS数据
+                            li.divider(role="separator")
+                            li
+                                a.dropdown-item(href='/obsuser') OBS人员数据
+                    li.divider(role="separator")
                     li
-                        a.dropdown-item(href='#') 新建项目
-                        //- a.dropdown-item(href='/project') 新建项目
+                        a.dropdown-item(href='/project') 新建项目
                     each item in projects
                         li.divider(role="separator")
                         li.dropdown-submenu
                             a.dropdown-item(href='#') #{item.name}
                             ul.dropdown-menu
                                 li
-                                    //- a.dropdown-item(href='/project') 项目概况
-                                    a.dropdown-item(href='#') 项目概况
+                                    a.dropdown-item(href='/project/detail?id='+item._id) 项目概况
                                 li.divider(role="separator")
                                 li
-                                    a.dropdown-item(href='#') 项目集成立计划
-                                    //- a.dropdown-item(href='/projectserver') 项目集成立计划
+                                    a.dropdown-item(href='/projectserver?id='+item._id) 项目集成立计划
                                 li.divider(role="separator")
                                 li
                                     a.dropdown-item(href='#') 项目任务系统

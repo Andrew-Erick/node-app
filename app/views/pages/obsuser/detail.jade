@@ -1,0 +1,29 @@
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
+        h4 项目-OBS-人员
+        hrs
+        form.form-horizontal
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label ID
+            .col-sm-4
+              p.form-control-static(name="id") #{obsuser.id}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 姓名
+            .col-sm-4
+              p.form-control-static(name="name") #{obsuser.name}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 所属团队
+            .col-sm-4
+              p.form-control-static(name="upper_obs") #{obsuser.upper_obs==undefined?"":obsuser.upper_obs.name}  
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 角色
+            .col-sm-4
+              p.form-control-static(name="role") #{obsuser.role}
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label 联系方式
+            .col-sm-4
+              p.form-control-static(name="contract") #{obsuser.contract}               
+        

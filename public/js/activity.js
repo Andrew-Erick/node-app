@@ -1,5 +1,4 @@
-$(function(){
-  // var json=[{
+ // var json=[{
   //   "id":3,
   //   "level":3, 
   //   "upper_activity":2, 
@@ -231,13 +230,13 @@ $(function(){
   var $form=$('#activityForm');
   var $modal=$('#activityModal');
   window.activityFormatter=function(value,row,index){
-    return ['<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>'].join('');
+    return ['<span class="add" title="add" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-plus"></i></span>','&nbsp;','<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>'].join('');
   };
   window.stageFormatter=function(value,row,index){
     return value==undefined?"":("<a target='_blanket' href='/preview/detail?id="+value._id+"'>"+value.name+"</a>");
   };
   window.typeFormatter=function(value,row,index){
-    var typeValues=["系统级","飞机级"];
+    var typeValues=["飞机级","系统级","设备级"];
     return (value==null||value=="")?"":typeValues[value-1];
   };
   window.executorFormatter=function(value,row,index){
@@ -248,10 +247,11 @@ $(function(){
     'click .edit': function (e, value, row, index) {
       e.preventDefault();
       $form.attr({'data-add':'false','data-index':index});
+      console.log(row);
       $form.find('[name]').each(function(i,item){
         var name=$(item).attr('name');
         if(name=="stage"){
-          $(item).val(row[name]._id)
+          $(item).val(row[name]==undefined?null:row[name]._id)
         }else{
           $(item).val(row[name]);
           
@@ -266,6 +266,14 @@ $(function(){
             values: [row.id]
         });     
       })
+    },
+    'click .add': function (e, value, row, index) {
+      e.preventDefault();
+      // e.stopPropagation();
+      $form.attr({'data-add':'true','data-index':index});
+      //
+      $form.find("input[name=pid]").val(row["_id"]);
+      $form.find("input[name=level]").val(parseInt(row["level"])+1);
     }
   };
   $table.on('check.bs.table uncheck.bs.table ' +
@@ -326,7 +334,17 @@ $(function(){
   $modal.on('hidden.bs.modal', function() {
     $form.formValidation('resetForm', true);
   });
-
+   $table.bootstrapTable({
+      url:'/activity/data',
+      pagination: true,
+      treeView: true,
+      treeId:'_id',
+      treeField: "activity",
+      treeRootLevel: 1,
+      clickToSelect: false
+      //collapseIcon: "glyphicon glyphicon-triangle-right",//折叠样式
+      //expandIcon: "glyphicon glyphicon-triangle-bottom"//展开样式
+  });
   // form validate
   $form.formValidation({
     framework:'bootstrap',
@@ -353,11 +371,12 @@ $(function(){
           }
         }
       },
+      _id:{},
+      pid:{},
       level:{},
-      upper_activity:{},
       activity_number:{},
       activity:{},
-      activity_description:{},
+      description:{},
       type:{},
       input:{},
       output:{},
@@ -375,23 +394,24 @@ $(function(){
       var data=$form.serializeObject();
       // 表单reset
       var add=$form.attr("data-add");
-      var index=$form.attr("data-index");
+      var index=$form.attr("data-index")==null?-1:$form.attr("data-index");
+      if(add=="true"){
+        index++;
+      }
+      var action=(add=="true"?"insertRow":"updateRow");
       if(data._id==""||data._id==null){
         delete data._id;
+      }
+      if(data.pid==""||data.pid==null){
+        delete data.pid;
       }
       $.post("/activity/edit",data).done(function(res){
         // var data=JSON.parse(data);
         if(res!=null){
-          if(add=="true"){
-            $table.bootstrapTable('insertRow',{index:1,row:res});
-          }else{
-            $table.bootstrapTable('updateRow',{index:index,row:res});       
-          }
+          $table.bootstrapTable(action,{index:index,row:res});
           $modal.modal('hide');
           $form.formValidation('resetForm', true);
         }
       })
       
     })
-
-})

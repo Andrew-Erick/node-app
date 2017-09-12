@@ -5,7 +5,7 @@ var StageSchema=new mongoose.Schema({
     id:Number,
     name:String,
     stage_description:String,
-    output:Number,
+    output:String,
     preview_in:{
       type:ObjectId,
       ref:'Preview'

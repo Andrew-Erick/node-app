@@ -2,9 +2,9 @@ extends ../../layout
 block content
   .container-fluid
     .row
-      main.col-sm-22.ml-sm-auto.col-md-22.pt-2(role="main")
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
         h4 项目-PBS
-        hr
+        hrs
         form.form-horizontal
           .form-group
             label.col-sm-2.col-sm-offset-2.control-label ID
@@ -23,21 +23,23 @@ block content
             .col-sm-4
               p.form-control-static(name="ata") #{pbs.ata}
           .form-group
-            label.col-sm-2.col-sm-offset-2.control-label  上层PBS
+            label.col-sm-2.col-sm-offset-2.control-label 层级
             .col-sm-4
-              p.form-control-static(name="upper_pbs") #{pbs.upper_pbs==undefined?"":pbs.upper_pbs.name}
+              p.form-control-static(name="level") #{pbs.level}
           .form-group
-            label.col-sm-2.col-sm-offset-2.control-label 类别
+            label.col-sm-2.col-sm-offset-2.control-label  上层团队
+            .col-sm-4
+              p.form-control-static(name="pid") #{pbs.pid==undefined?"":pbs.pid.name}  
+          .form-group
+            label.col-sm-2.col-sm-offset-2.control-label  类别
             .col-sm-4
               case pbs.type
-                when 0
-                    p.form-control-static(name="type") 飞机
+                when 1
+                  p.form-control-static(name="type") 飞机
                 when 2
-                    p.form-control-static(name="type") 飞机系统
-                when 2
-                    p.form-control-static(name="type") 飞机结构
+                  p.form-control-static(name="type") 飞机系统
+                when 3
+                  p.form-control-static(name="type") 飞机设备
                 default
-                    ""
-
-              
+                   p.form-control-static(name="type")     
         

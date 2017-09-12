@@ -1,5 +1,7 @@
 var Project=require('../models/project');
 var Wbs=require('../models/wbs');
+var Pbs=require('../models/pbs');
+var Obs=require('../models/obs');
 var _ = require('underscore');
 var URL=require('url');
 var querystring=require('querystring');
@@ -118,8 +120,11 @@ exports.detail=function(req,res){
     if(err){
       console.log(err)
     }
+    var wbs=project.wbs==undefined?new Wbs():project.wbs;
+    var pbs=wbs.upper_pbs==undefined?new Pbs():wbs.upper_pbs;
+    var obs=wbs.upper_obs==undefined?new Obs():wbs.upper_obs;
     getProject(function(projects){
-      res.render('project/detail',{project:project,projects:projects})
+      res.render('project/detail',{project:project,projects:projects,wbs:wbs,pbs:pbs,obs:obs})
     })
   })
 }

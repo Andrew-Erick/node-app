@@ -16,28 +16,28 @@ block content
             option(value="") Export Basic
             option(value="all") Export All
             option(value="selected") Export Selected
-        table(data-toggle="table",data-toolbar="#activityToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-url="/activity/data",data-data-type="json",data-method="get")#activityTable
+        table(data-toggle="table",data-toolbar="#activityToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-data-type="json",data-method="get")#activityTable
           thead
             tr
               th(data-checkbox='true') 
-              //- th(data-field="number",data-sortable="true") 编号
-              //- th(data-field="_id",data-sortable="true",class="hidden")
-              th(data-field="id",data-sortable="true") ID
-              th(data-field="level",data-sortable="true") 活动层级
-              th(data-field="upper_activity",data-sortable="true") 上层活动ID
-              th(data-field="activity_number",data-sortable="true") 活动编号
-              th(data-field="activity",data-sortable="true") 活动 
-              th(data-field="activity_description",data-sortable="true") 活动描述 
-              th(data-field="type",data-sortable="true",data-visible="false",data-formatter="typeFormatter") 活动类型 
-              th(data-field="input",data-sortable="true" data-visible="false") 输入
-              th(data-field="output",data-sortable="true" data-visible="false") 输出 
-              th(data-field="task",data-sortable="true" data-visible="false") 任务 
-              th(data-field="executor",data-sortable="true" data-visible="false",data-formatter="executorFormatter") 执行人 
-              th(data-field="stage",data-sortable="true" data-formatter="stageFormatter") 所处阶段 
-              th(data-field="line",data-sortable="true" data-visible="false") 条线
-              th(data-field="tool",data-sortable="true" data-visible="false") 工具 
-              th(data-field="method",data-sortable="true" data-visible="false") 方法 
-              th(data-field="action",data-formatter="activityFormatter"
+              //- th(data-field="number",data-sortable="false") 编号
+              //- th(data-field="_id",data-sortable="false",class="hidden")
+              th(data-field="id",data-sortable="false") ID
+              th(data-field="activity_number",data-sortable="false") 活动编号
+              th(data-field="activity",data-sortable="false") 活动 
+              th(data-field="level",data-sortable="false") 活动层级
+              //- th(data-field="upper_activity",data-sortable="false") 上层活动ID
+              th(data-field="description",data-sortable="false") 活动描述 
+              th(data-field="type",data-sortable="false",data-formatter="typeFormatter") 活动类型 
+              th(data-field="input",data-sortable="false" data-visible="false") 输入
+              th(data-field="output",data-sortable="false" data-visible="false") 输出 
+              th(data-field="task",data-sortable="false" data-visible="false") 任务 
+              th(data-field="executor",data-sortable="false" data-visible="false",data-formatter="executorFormatter") 执行人 
+              th(data-field="stage",data-sortable="false" data-formatter="stageFormatter") 所处阶段 
+              th(data-field="line",data-sortable="false" data-visible="false") 条线
+              th(data-field="tool",data-sortable="false" data-visible="false") 工具 
+              th(data-field="method",data-sortable="false" data-visible="false") 方法 
+              th(data-field="action",data-formatter="activityFormatter",
               data-events="activityActionEvents") 操作
    #activityModal.modal.fade
     .modal-dialog
@@ -51,32 +51,35 @@ block content
                   .col-sm-8
                     input.form-control(name="id",type="text")
                     input.form-control.hidden(name="_id",type="text")
-              .form-group
-                  label.col-sm-3.control-label 活动层级
-                  .col-sm-8
-                    input.form-control(name="level",type="text")
-              .form-group
-                  label.col-sm-3.control-label 上层活动ID
-                  .col-sm-8
-                    input.form-control(name="upper_activity",type="text")
-              .form-group
-                  label.col-sm-3.control-label 活动编号
-                  .col-sm-8
-                    input.form-control(name="activity_number",type="text")
+                    input.hidden(name="pid",type="text")
+                    input.hidden(name="level",type="text")
+              //- .form-group
+              //-     label.col-sm-3.control-label 活动层级
+              //-     .col-sm-8
+              //-       input.form-control(name="level",type="text")
+              //- .form-group
+              //-     label.col-sm-3.control-label 上层活动ID
+              //-     .col-sm-8
+              //-       input.form-control(name="upper_activity",type="text")
               .form-group
                   label.col-sm-3.control-label 活动
                   .col-sm-8
                     input.form-control(name="activity",type="text")
               .form-group
+                  label.col-sm-3.control-label 活动编号
+                  .col-sm-8
+                    input.form-control(name="activity_number",type="text")
+              .form-group
                   label.col-sm-3.control-label 活动描述
                   .col-sm-8
-                    textarea.form-control(name="activity_description",type="text")
+                    textarea.form-control(name="description",type="text")
               .form-group
                   label.col-sm-3.control-label 活动类型
                   .col-sm-8
                     select.form-control(name="type",type="text")
                       option(value="1") 飞机级
                       option(value="2") 系统级
+                      option(value="3") 设备级
               .form-group
                   label.col-sm-3.control-label 输入
                   .col-sm-8

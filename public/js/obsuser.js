@@ -82,7 +82,7 @@ $(function(){
     return ['<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>'].join('');
   };
   window.obsFormatter=function(value,row,index){
-    return "<a href='#'>"+value.name+"</a>";
+    return value==undefined?"":("<a target='_blanket' href='/obs/detail?id="+value._id+"'>"+value.name+"</a>");
   };
   window.obsuserActionEvents = {
     'click .edit': function (e, value, row, index) {

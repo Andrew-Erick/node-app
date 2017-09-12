@@ -4,13 +4,15 @@ var Schema=mongoose.Schema;
 var ObjectId=Schema.Types.ObjectId;
 var WbsSchema=new mongoose.Schema({
     id:Number,
+    pid:{
+      type:ObjectId,
+      ref:'Wbs',
+      default:null
+    },
+    level:Number,
     number:String,
     name:String,
     level:Number,
-    upper_wbs:{
-      type:ObjectId,
-      ref:'Wbs'
-    },
     upper_obs:{
       type:ObjectId,
       ref:'Obs'
@@ -37,6 +39,10 @@ WbsSchema.pre('save',function(next){
   }else{
     this.meta.updateAt=Date.now();
   }
+  if(this.level==null||this.level==""){
+    console.log("this.level",this.level);
+    this.level=1;
+  }
   next();
 });
 
@@ -45,7 +51,6 @@ WbsSchema.statics={
     return this
         .find({})
         .sort('meta.updateAt')
-        .populate('upper_wbs')
         .populate('upper_obs')
         .populate('upper_pbs')
         .exec(cb)
@@ -55,7 +60,6 @@ WbsSchema.statics={
       .findOne({
           _id: id
       })
-      .populate('upper_wbs')
       .populate('upper_obs')
       .populate('upper_pbs')
       .exec(cb)

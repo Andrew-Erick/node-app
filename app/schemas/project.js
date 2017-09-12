@@ -41,7 +41,11 @@ ProjectSchema.statics={
           model:'Wbs',
           populate:[{
               path:'upper_pbs',
-              model:'Pbs'
+              model:'Pbs',
+              populate:[{
+                path:'activity',
+                model:'Activity'
+              }]
             },{
               path:'upper_obs',
               model:'Obs'
@@ -59,7 +63,11 @@ ProjectSchema.statics={
             model:'Wbs',
             populate:[{
               path:'upper_pbs',
-              model:'Pbs'
+              model:'Pbs',
+              populate:[{
+                path:'activity',
+                model:'Activity'
+              }]
             },{
               path:'upper_obs',
               model:'Obs'

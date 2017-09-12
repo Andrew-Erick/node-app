@@ -3,7 +3,7 @@ block content
   .container-fluid
     .row
       main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
-        h3 项目-OBS
+        h4 项目-OBS
         hr
         #obsToolbar
           button#obsRemove.btn.btn-danger(disabled)
@@ -16,16 +16,15 @@ block content
             option(value="") Export Basic
             option(value="all") Export All
             option(value="selected") Export Selected
-        table(data-toggle="table",data-toolbar="#obsToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-url="/obs/data",data-data-type="json",data-method="get")#obsTable
+        table(data-toggle="table",data-toolbar="#obsToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id",data-data-type="json",data-method="get")#obsTable
           thead
             tr
               th(data-checkbox='true') 
-              //- th(data-field="number",data-sortable="true") 编号
-              th(data-field="id",data-sortable="true") ID
-              th(data-field="number",data-sortable="true") IPT团队编号
-              th(data-field="name",data-sortable="true") 团队名称
-              th(data-field="level",data-sortable="true") 层级 
-              th(data-field="upper_obs",data-sortable="true",data-formatter="upper_obsFormatter") 上层团队
+              //- th(data-field="number",data-sortable="false") 编号
+              th(data-field="id",data-sortable="false") ID
+              th(data-field="number",data-sortable="false") IPT团队编号
+              th(data-field="name",data-sortable="false") 团队名称
+              th(data-field="level",data-sortable="false") 层级 
               th(data-field="action",data-formatter="obsFormatter"
               data-events="obsActionEvents") 操作
    #obsModal.modal.fade
@@ -40,6 +39,8 @@ block content
                 .col-sm-8
                   input.form-control(name="id",type="text")
                   input.form-control.hidden(name="_id",type="text")
+                  input.hidden(name="pid",type="text")
+                  input.hidden(name="level",type="text")
               .form-group
                 label.col-sm-2.control-label IPT团队编号
                 .col-sm-8
@@ -47,11 +48,7 @@ block content
               .form-group
                 label.col-sm-2.control-label 团队名称
                 .col-sm-8
-                  input.form-control(name="name",type="text")
-              .form-group
-                label.col-sm-2.control-label  上层团队
-                .col-sm-8
-                  select.form-control(name="upper_obs")                  
+                  input.form-control(name="name",type="text")                  
             .modal-footer
                 button.btn.btn-deafult(type="button",data-dismiss="modal") 关闭
                 button.btn.btn-success(type="submit") 保存 
