@@ -12,17 +12,18 @@ $(function(){
   var $form=$('#projectForm');
   var $modal=$('#projectModal');
   window.projectFormatter=function(value,row,index){
-    return ['<span class="edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></span>','&nbsp;','<span class="remove" title="remove">','<i class="oi oi-trash"></i></span>','&nbsp;','<span class="export" title="export" data-toggle="modal" >','<i class="oi oi-spreadsheet"></i></span>'].join('');
+    // return ['<a href="javascript:void(0)" class="Edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></a>','&nbsp;&nbsp;','<a href="javascript:void(0)"  class="remove ml10" title="Remove">','<i class="oi oi-trash"></i></a>','&nbsp;&nbsp;','<a href="javascript:void(0)"  class="export ml10" title="Export" data-toggle="modal" >','<i class="oi oi-spreadsheet"></i></a>','&nbsp;&nbsp;','<a href="javascript:void(0)" class="pbs ml10" title="PBS信息">','<i class="oi oi-external-link"></i></a></a>','&nbsp;&nbsp;','<a href="javascript:void(0)" class="obs ml10" title="OBS信息">','<i class="oi oi-external-link"></i></a></a>','&nbsp;&nbsp;','<a href="javascript:void(0)" class="obsuser ml10" title="OBS人员信息">','<i class="oi oi-external-link"></i></a></a>'].join('');
+  return ['<a href="javascript:void(0)" class="Edit" title="edit" data-toggle="modal" data-target='+'#'+$modal.attr("id")+'>','<i class="oi oi-pencil"></i></a>','&nbsp;&nbsp;','<a href="javascript:void(0)"  class="remove ml10" title="Remove">','<i class="oi oi-trash"></i></a>','&nbsp;&nbsp;','<a href="javascript:void(0)"  class="export ml10" title="Export" data-toggle="modal" >','<i class="oi oi-spreadsheet"></i></a>'].join('');
   };
-   window.wbsFormatter=function(value,row,index){
-    return value==undefined?"":("<a target='_blanket' href='/wbs/detail?id="+value._id+"'>"+value.name+"</a>");
-  };
-   window.pbsFormatter=function(value,row,index){
-    return row.wbs==undefined?"":("<a target='_blanket' href='/pbs/detail?id="+row.wbs.upper_pbs._id+"'>"+row.wbs.upper_pbs.name+"</a>");
-  };
-   window.obsFormatter=function(value,row,index){
-    return row.wbs==null?"":("<a target='_blanket' href='/obs/detail?id="+row.wbs.upper_obs._id+"'>"+row.wbs.upper_obs.name+"</a>");
-  };
+  //  window.wbsFormatter=function(value,row,index){
+  //   return value==undefined?"":("<a target='_blanket' href='/wbs/detail?id="+value._id+"'>"+value.name+"</a>");
+  // };
+  //  window.pbsFormatter=function(value,row,index){
+  //   return row.wbs==undefined?"":("<a target='_blanket' href='/pbs/detail?id="+row.wbs.upper_pbs._id+"'>"+row.wbs.upper_pbs.name+"</a>");
+  // };
+  //  window.obsFormatter=function(value,row,index){
+  //   return row.wbs==null?"":("<a target='_blanket' href='/obs/detail?id="+row.wbs.upper_obs._id+"'>"+row.wbs.upper_obs.name+"</a>");
+  // };
 
   window.projectActionEvents = {
     'click .edit': function (e, value, row, index) {
@@ -49,15 +50,30 @@ $(function(){
     },
     'click .export':function(e,value,row,index){
       e.preventDefault();
-      var wbs=row.wbs;
-      if(wbs!=undefined&&wbs.upper_pbs!=undefined&&wbs.upper_pbs.type!=undefined){
-        var data={id:wbs.upper_pbs._id,project:row._id};
+      var id=row._id;
+      if(id){
+        var data={id:id};
         $.post("/projectserver/export",data).done(function(res){
-            $table.bootstrapTable('updateRow',{index:index,row:res});  
+           console.log("success");
         })
       }
 
       // 
+    },
+    'click .pbs':function(e,value,row,index){
+      e.preventDefault();
+      console.log(row._id);
+      window.open("pbs?oid="+row._id);
+    },
+    'click .obs':function(e,value,row,index){
+      e.preventDefault();
+      console.log(row._id);
+      window.open("obs?oid="+row._id);
+    },
+    'click .obsuser':function(e,value,row,index){
+      e.preventDefault();
+      console.log(row._id);
+      window.open("obsuser?oid="+row._id);
     }
   }
   $table.on('check.bs.table uncheck.bs.table ' +
@@ -68,6 +84,11 @@ $(function(){
     // selections = getIdSelections();
     // push or splice the selections if you want to save all data selections
   });
+  $table.on('click-row.bs.table',function(e, row, $element){
+    document.getElementById("pbsFrame").src="/pbs?oid="+row._id;
+    document.getElementById("obsFrame").src="/obs?oid="+row._id;
+    document.getElementById("obsuserFrame").src="/obsuser?oid="+row._id;
+  })
   $remove.click(function(){
     var data=getIdSelections();
     if(data.ids.length>0){
@@ -106,8 +127,6 @@ $(function(){
       exportDataType:$(this).val()
     })
   })
-  // $table.bootstrapTable('load',json); 
-
   // func add & edit
   // add
   $add.click(function(){

@@ -15,7 +15,7 @@ var Obs=require('../app/controllers/obs');
 var Obsuser=require('../app/controllers/obsuser');
 var Projectserver=require('../app/controllers/projectserver');
 var Jira=require('../app/controllers/jira');
-var Jiratask=require('../app/controllers/jiratask');
+var Jiradev=require('../app/controllers/jiradev');
 
 
 
@@ -62,7 +62,7 @@ module.exports = function(app) {
 
     // app.get('/results', User.signinRequired, Index.search);
 
-
+    app.get('/atlassian-connect.json',Jira.json);
     // activity
     app.get('/activity',Activicty.index);
     app.get('/activity/data',Activicty.list);
@@ -116,6 +116,7 @@ module.exports = function(app) {
     app.post('/obsuser/edit',multipartyMiddleware,Obsuser.save);
     app.delete('/obsuser/delete',Obsuser.delete);
     app.get('/obsuser/detail',Obsuser.detail);
+    app.get('/obsuser/info',Obsuser.info);
 
 
     app.get('/projectserver',Projectserver.index)
@@ -125,6 +126,7 @@ module.exports = function(app) {
     app.post('/projectserver/export',Projectserver.export);
 
     app.get('/jira',Jira.index)
-    app.get('/jiratask',Jiratask.index)
+    app.get('/hello-world',Jiradev.index)
+    // app.get('/hello-world', Jira.index);
 
 }

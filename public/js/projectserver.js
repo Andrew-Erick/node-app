@@ -69,6 +69,7 @@
       $form.attr({'data-add':'true','data-index':index});
       //
       $form.find("input[name=pid]").val(row["_id"]);
+      $form.find("input[name=project]").val(getQueryUrl("id"));
       $(".plan_start_time input").val("");
       $(".plan_end_time input").val("");
       $form.find("input[name=level]").val(parseInt(row["level"])+1);
@@ -140,7 +141,6 @@
     }else{
       return null
     }
-    url.split()
   }
   // form validate
   // form validate
@@ -197,8 +197,8 @@
       // Prevent form submission
       e.preventDefault();
       var $form=$(e.target);
-      var data=$form.serializeObject();
       // 表单reset
+      var data=$form.serializeObject();
       var add=$form.attr("data-add");
       var index=$form.attr("data-index")==null?-1:$form.attr("data-index");
       if(add=="true"){
@@ -211,7 +211,10 @@
       if(data.pid==""||data.pid==null){
         delete data.pid;
       }
-
+      data.project=getQueryUrl('id');
+      if(data.project==""||data.project==null){
+        delete data.project;
+      }
       $.post("/projectserver/edit",data).done(function(res){
         // var data=JSON.parse(data);
         if(res!=null){

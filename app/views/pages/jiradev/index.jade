@@ -1,0 +1,40 @@
+link(rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/6.0.7/css/aui.min.css",media="all")
+link(rel="stylesheet" href="//aui-cdn.atlassian.com/aui-adg/6.0.7/css/aui-experimental.min.css",media="all")
+script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
+script(src="//aui-cdn.atlassian.com/aui-adg/6.0.7/js/aui.min.js")
+script(src="//aui-cdn.atlassian.com/aui-adg/6.0.7/js/aui-experimental.min.js")
+script(src="//aui-cdn.atlassian.com/aui-adg/6.0.7/js/aui-datepicker.min.js")
+script(src="//aui-cdn.atlassian.com/aui-adg/6.0.7/js/aui-soy.min.js")
+section#content.ac-content
+  table.aui
+    thead
+      tr
+        th 任务编号
+        th 任务负责人
+        th 任务批准人
+        th 任务名称
+        th 任务描述
+        th 对应PBS
+        th 输入
+        th 输出
+        th 关联里程碑
+        th 关联里程碑
+        th 工具
+        th 计划完成时间
+    tbody
+      each item in projectserver
+        tr(class="item-id-#{item._id}")
+          td(headers="id") #{item.id}
+          td(headers="resource") #{item.resource==undefined?"":item.resource.name}
+          td(headers="approver") #{item.resource==undefined?"":item.resource.name}
+          td(headers="name") #{item.name}
+          td(headers="description") #{item.description}
+          td(headers="pbs") #{item.pbs==undefined?"":item.pbs.name}
+          td(headers="input") #{item.input}
+          td(headers="output") #{item.output}
+          td(headers="task") #{item.task}
+          td(headers="tool") #{item.tool}
+          td(headers="method") #{item.method}
+          td(headers="plan_start_time") #{item.plan_start_time}
+//- script#connect-loader(data-option="sizeToParent:true;",src="js/jiradev.js")
+script(src="#{baseUrl}/atlassian-connect/all.js") 

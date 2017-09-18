@@ -1,77 +1,4 @@
-$(function(){
-  var json=[{
-    "id":1,
-    "name":"张三", 
-    "upper_obs":"飞机型号IPT团队", 
-    "role":0, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":2,
-    "name":"张四", 
-    "upper_obs":"飞机型号IPT团队", 
-    "role":1, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":3,
-    "name":"张五", 
-    "upper_obs":"市场销售IPT团队", 
-    "role":2, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":4,
-    "name":"张六", 
-    "upper_obs":"总体设计IPT团队", 
-    "role":4, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":5,
-    "name":"张七", 
-    "upper_obs":"航电团队", 
-    "role":4, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":6,
-    "name":"张八", 
-    "upper_obs":"航电团队", 
-    "role":5, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":7,
-    "name":"张九", 
-    "upper_obs":"指示记录系统IPT团队", 
-    "role":7, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":8,
-    "name":"李四", 
-    "upper_obs":"通信系统IPT团队", 
-    "role":6, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":9,
-    "name":"李五", 
-    "upper_obs":"导航系统IPT团队", 
-    "role":8, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":10,
-    "name":"李六", 
-    "upper_obs":"机械系统IPT团队", 
-    "role":5, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":11,
-    "name":"李七", 
-    "upper_obs":"结构设计IPT团队", 
-    "role":5, 
-    "contract":"021-XXXXXXXX",
-  },{
-    "id":12,
-    "name":"李八", 
-    "upper_obs":"制造IPT团队", 
-    "role":3, 
-    "contract":"021-XXXXXXXX",
-  }];
+
   var $table=$('#obsuserTable');
   var $remove=$('#obsuserRemove');
   var $toolbar=$('#obsuserToolbar');
@@ -156,7 +83,15 @@ $(function(){
     })
   })
   // $table.bootstrapTable('load',json); 
-
+  function getQueryUrl(name){
+    var reg=new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+    var r=window.location.search.substr(1).match(reg);
+    if(r!=null){
+      return unescape(r[2])
+    }else{
+      return null
+    }
+  }
   // func add & edit
   // add
   $add.click(function(){
@@ -167,7 +102,9 @@ $(function(){
   $modal.on('hidden.bs.modal', function() {
     $form.formValidation('resetForm', true);
   });
-
+   $table.bootstrapTable({
+      url:'/obsuser/data?oid='+getQueryUrl("oid"),
+  });
   // form validate
   $form.formValidation({
     framework:'bootstrap',
@@ -210,6 +147,10 @@ $(function(){
       if(data._id==""||data._id==null){
         delete data._id;
       }
+      data.project=getQueryUrl('oid');
+      if(data.project==""||data.project==null){
+        delete data.project;
+      }
       $.post("/obsuser/edit",data).done(function(res){
         // var data=JSON.parse(data);
         if(res!=null){
@@ -224,5 +165,3 @@ $(function(){
       })
       
     })
-
-})

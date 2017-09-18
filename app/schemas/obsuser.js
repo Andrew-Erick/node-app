@@ -10,6 +10,10 @@ var ObsuserSchema=new mongoose.Schema({
       type:ObjectId,
       ref:'Obs'
     },
+    project:{
+      type:ObjectId,
+      ref:'Project'
+    },
     meta:{
       createAt:{
         type:Date,
@@ -32,9 +36,9 @@ ObsuserSchema.pre('save',function(next){
 });
 
 ObsuserSchema.statics={
-  fetch:function(cb){
+  fetch:function(conditions,cb){
     return this
-        .find({})
+        .find(conditions)
         .sort('meta.updateAt')
         .populate('upper_obs')
         .exec(cb)

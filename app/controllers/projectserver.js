@@ -110,29 +110,35 @@ exports.delete=function(req,res){
   }
 }
 exports.export=function(req,res){
-  var id=req.body.id;
-  var pid=req.body.project;
+  var pid=req.body.id;
+  // var pid=req.body.project;
   // 找到Pbs，然后找到根据Pbs的activity找出对于的级别，如果是飞机级则复制，如果不是则找过所有的子节点，然后post到projectServer里面，最后将project的状态改为已导入
-  Pbs.findById(id,function(err,pbs){
+  var conditions=(pid=="null"?{}:{project:pid});
+  Pbs.fetch(conditions,function(err,pbs){
     if(err){
       console.log(err)
     }
-    var type=pbs.type;
-    console.log("type",type);
-    if(type==undefined){
-      console.log("pbs activity undefined")
+    for(var item in pbs){
+      var type=pbs[item].type;
+      if(type==undefined){
+        console.log("pbs activity undefined")
+        /**
+         * if type==1 ,find all activity type field==1
+         * if type=2,find all child nodes activity type field ==2
+         */
+      }
+      console.log("type",type);
+      getActivities(pbs[item],type)
+      // if(type==1){
+      //   getActivities(pbs[item],type)
+      // }else if(type==2||type==3){
+      //   getPbs(pbs[item],type)
+      // }else{
+      //   console.log("type error"+type);
+      // }
     }
-    /**
-     * if type==1 ,find all activity type field==1
-     * if type=2,find all child nodes activity type field ==2
-     */
-    if(type==1){
-      getActivities(pbs,type)
-    }else if(type==2||type==3){
-      getPbs(pbs,type)
-    }else{
-      console.log("type error"+type);
-    }
+  
+  
     function getProjectserverObj(id,activity){
       var projectserverObj=new Object();
       projectserverObj.name=activity.activity;
@@ -170,29 +176,47 @@ exports.export=function(req,res){
         }
         for(var item in activities){
           var _projectserverObj=getProjectserverObj(pbs._id,activities[item]);
-          _projectserverObj.name=pbs.name+_projectserverObj.name;
+          if(type==2||type==3){
+            _projectserverObj.name=pbs.name+_projectserverObj.name;
+          }else{
+             _projectserverObj.name=_projectserverObj.name;
+          }
           exportProject(_projectserverObj);
         }
       })
     }
     
-    function getPbs(pbs,type){
-      getActivities(pbs,type)
-      if(pbs._id!=null){
-        Pbs.find({pid:pbs._id})
-        .exec(function(err,pbsArray){
-          console.log("pbsArray",pbsArray);
-          if(err){
-            console.log(err)
-          }
-          if(pbsArray.length>0){
-            for(var item in pbsArray){
-              getPbs(pbsArray[item],type);
-            }
-          }
-        })
-      }
-    }
+    // function getPbs(pbs,type){
+    //   Activity
+    //   .find({"type":type})
+    //   .exec(function(err,activities){
+    //     if(err){
+    //       console.log(err)
+    //     }
+    //     for(var item in activities){
+    //       var _projectserverObj=getProjectserverObj(pbs._id,activities[item]);
+    //       _projectserverObj.name=_projectserverObj.name;
+    //       exportProject(_projectserverObj);
+    //     }
+    //   })
+    // }
+    // function getPbs(pbs,type){
+    //   getActivities(pbs,type)
+    //   if(pbs._id!=null){
+    //     Pbs.find({pid:pbs._id})
+    //     .exec(function(err,pbsArray){
+    //       console.log("pbsArray",pbsArray);
+    //       if(err){
+    //         console.log(err)
+    //       }
+    //       if(pbsArray.length>0){
+    //         for(var item in pbsArray){
+    //           getPbs(pbsArray[item],type);
+    //         }
+    //       }
+    //     })
+    //   }
+    // }
   })
 
 }

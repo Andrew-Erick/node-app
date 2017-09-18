@@ -3,7 +3,7 @@ block content
   .container-fluid
     .row
       main.col-sm-12.ml-sm-auto.col-md-12.pt-3(role="main")
-        h3 project项目信息
+        h3 projectServer项目信息
         hr
         #projectserverToolbar
           button#projectserverRemove.btn.btn-danger(disabled)
@@ -43,7 +43,7 @@ block content
         .modal-content
           form.form-horizontal(role="form",data-add="true")#projectserverForm
             .modal-header
-              h4 企业过程信息
+              h4 projectServer项目信息
             .modal-body 
               //- .form-group
               //-   label.col-sm-2.control-label ID
@@ -55,6 +55,7 @@ block content
                   input.hidden(name="_id",type="text")
                   input.hidden(name="pid",type="text")
                   input.hidden(name="level",type="text")
+                  input.hidden(name="project",type="text")
                   input.form-control(name="name",type="text")
               .form-group
                 label.col-sm-2.control-label 任务描述

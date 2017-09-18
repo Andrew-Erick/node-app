@@ -1,68 +1,4 @@
-var json=[{
-    "id":1,
-    "number":"P0", 
-    "name":"飞机", 
-    "ata":"NA", 
-    "level":"0", 
-    "upper_pbs":"0", 
-    "type":"0", 
-  },{
-    "id":2,
-    "number":"P1", 
-    "name":"航电系统", 
-    "ata":"NA", 
-    "level":1, 
-    "upper_pbs":1, 
-    "type":1, 
-  },{
-    "id":3,
-    "number":"P1.1", 
-    "name":"指示记录系统",
-    "ata":"ATA31", 
-    "level":2, 
-    "upper_pbs":2, 
-    "type":1, 
-  },{
-    "id":4,
-    "number":"P1.2", 
-    "name":"通信系统", 
-    "ata":"ATA23", 
-    "level":2, 
-    "upper_pbs":2, 
-    "type":1, 
-  },{
-    "id":5,
-    "number":"P1.3", 
-    "name":"导航系统", 
-    "ata":"ATA34", 
-    "level":2, 
-    "upper_pbs":2, 
-    "type":1, 
-  },{
-    "id":6,
-    "number":"P2", 
-    "name":"机械系统", 
-    "ata":"NA", 
-    "level":1, 
-    "upper_pbs":1, 
-    "type":1, 
-  },{
-    "id":7,
-    "number":"P3", 
-    "name":"中机身", 
-    "ata":"NA", 
-    "level":1, 
-    "upper_pbs":1, 
-    "type":2, 
-  },{
-    "id":8,
-    "number":"P4", 
-    "name":"机翼", 
-    "ata":"NA", 
-    "level":1, 
-    "upper_pbs":1, 
-    "type":2, 
-  }];
+
   var $table=$('#pbsTable');
   var $remove=$('#pbsRemove');
   var $toolbar=$('#pbsToolbar');
@@ -148,6 +84,7 @@ var json=[{
       $form.attr({'data-add':'true','data-index':index});
       //
       $form.find("input[name=pid]").val(row["_id"]);
+      $form.find("input[name=project]").val(getQueryUrl("oid"));
       $form.find("input[name=level]").val(parseInt(row["level"])+1);
     }
   };
@@ -198,7 +135,15 @@ var json=[{
     })
   })
   // $table.bootstrapTable('load',json); 
-
+  function getQueryUrl(name){
+    var reg=new RegExp("(^|&)"+name+"=([^&]*)(&|$)");
+    var r=window.location.search.substr(1).match(reg);
+    if(r!=null){
+      return unescape(r[2])
+    }else{
+      return null
+    }
+  }
   // func add & edit
   // add
   $add.click(function(){
@@ -212,7 +157,7 @@ var json=[{
     $form.formValidation('resetForm', true);
   });
    $table.bootstrapTable({
-      url:'/pbs/data',
+      url:'/pbs/data?oid='+getQueryUrl("oid"),
       pagination: true,
       treeView: true,
       treeId:'_id',
@@ -274,6 +219,10 @@ var json=[{
       }
       if(data.pid==""||data.pid==null){
         delete data.pid;
+      }
+      data.project=getQueryUrl('oid');
+      if(data.project==""||data.project==null){
+        delete data.project;
       }
       $.post("/pbs/edit",data).done(function(res){
         // var data=JSON.parse(data);

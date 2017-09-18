@@ -11,7 +11,10 @@ exports.index=function(req,res){
 }
 // pbs list page
 exports.list=function(req,res){
-  Pbs.fetch(function(err,pbs){
+  var arg=URL.parse(req.url).query;
+  var oid=querystring.parse(arg).oid;
+  var conditions=(oid=="null"?{}:{project:oid});
+  Pbs.fetch(conditions,function(err,pbs){
     if(err){
       console.log(err);
     }

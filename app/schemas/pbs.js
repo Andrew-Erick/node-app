@@ -7,6 +7,10 @@ var PbsSchema=new mongoose.Schema({
     name:String,
     ata:String,
     level:Number,
+    project:{
+      type:ObjectId,
+      ref:'Project'
+    },
     pid:{
       type:ObjectId,
       ref:'Pbs',
@@ -38,9 +42,9 @@ PbsSchema.pre('save',function(next){
 });
 
 PbsSchema.statics={
-  fetch:function(cb){
+  fetch:function(conditions,cb){
     return this
-        .find({})
+        .find(conditions)
         .sort('meta.updateAt')
         .exec(cb)
   },

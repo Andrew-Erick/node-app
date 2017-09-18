@@ -16,9 +16,23 @@ exports.index=function(req,res){
     })
   })
 }
+exports.info=function(req,res){
+  Obs.fetch(function(err,obs){
+    if(err){
+      console.log(err);
+    }
+    getProject(function(projects){
+      res.render('obsuser/info',{obs:obs,projects:projects});
+
+    })
+  })
+}
 // obsuser list page
 exports.list=function(req,res){
-  Obsuser.fetch(function(err,obsuser){
+  var arg=URL.parse(req.url).query;
+  var oid=querystring.parse(arg).oid;
+  var conditions=(oid=="null"?{}:{project:oid});
+  Obsuser.fetch(conditions,function(err,obsuser){
     if(err){
       console.log(err);
     }

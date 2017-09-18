@@ -11,7 +11,10 @@ exports.index=function(req,res){
 }
 // obs list page
 exports.list=function(req,res){
-  Obs.fetch(function(err,obs){
+  var arg=URL.parse(req.url).query;
+  var oid=querystring.parse(arg).oid;
+  var conditions=(oid=="null"?{}:{project:oid});
+  Obs.fetch(conditions,function(err,obs){
     if(err){
       console.log(err);
     }

@@ -11,6 +11,10 @@ var ObsSchema=new mongoose.Schema({
       ref:'Activity',
       default:null
     },
+    project:{
+      type:ObjectId,
+      ref:'Project'
+    },
     type:Number,
     meta:{
       createAt:{
@@ -37,9 +41,9 @@ ObsSchema.pre('save',function(next){
 });
 
 ObsSchema.statics={
-  fetch:function(cb){
+  fetch:function(conditions,cb){
     return this
-        .find({})
+        .find(conditions)
         .sort('meta.updateAt')
         .exec(cb)
   },

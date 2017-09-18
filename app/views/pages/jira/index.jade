@@ -1,128 +1,16 @@
-extends ../../layout
-block content
-  .container-fluid
-    .row
-      main.col-sm-12.ml-sm-auto.col-md-12.pt-3(role="main")
-        h3 企业级-任务项信息
-        hr
-        #activityToolbar
-          button#activityRemove.btn.btn-danger(disabled)
-            i.oi.oi-trash 删除
-          span &nbsp;&nbsp;
-          a.btn.btn-info(href="#",data-toggle="modal",data-target="#activityModal")#activityAdd
-            i.oi.oi-plus 添加
-          span &nbsp;&nbsp;
-          select.form-control-static
-            option(value="") Export Basic
-            option(value="all") Export All
-            option(value="selected") Export Selected
-        table(data-toggle="table",data-toolbar="#activityToolbar",data-search="true",data-pagination="true",data-pagination-v-align="bottom",data-pagination-h-align="right",data-show-refresh="false",data-show-toggle="true",data-show-export="true",data-minimum-count-columns="2",data-show-pagination-switch="true",data-page-list="[10, 25, 50, 100, ALL]",data-advanced-search="true",data-show-footer="false",data-show-columns="true",data-click-to-select="true",data-id-field="id")#activityTable
-          thead
-            tr
-              th(data-checkbox='true') 
-              //- th(data-field="number",data-sortable="true") 编号
-              th(data-field="id",data-sortable="true") ID
-              th(data-field="level",data-sortable="true") 活动层级
-              th(data-field="upper_activity",data-sortable="true") 上层活动ID
-              th(data-field="activity_number",data-sortable="true") 活动编号
-              th(data-field="activity",data-sortable="true") 活动 
-              th(data-field="activity_description",data-sortable="true",data-editable="true") 活动描述 
-              th(data-field="type",data-sortable="true",data-visible="false") 活动类型 
-              th(data-field="input",data-sortable="true" data-visible="false") 输入
-              th(data-field="output",data-sortable="true" data-visible="false") 输出 
-              th(data-field="task",data-sortable="true" data-visible="false") 任务 
-              th(data-field="executor",data-sortable="true" data-visible="false") 执行人 
-              th(data-field="stage",data-sortable="true" data-visible="false") 所处阶段 
-              th(data-field="line",data-sortable="true" data-visible="false") 条线
-              th(data-field="tool",data-sortable="true" data-visible="false") 工具 
-              th(data-field="method",data-sortable="true" data-visible="false") 方法 
-              th(data-field="action",data-formattor="activityActionFormatter",data-events="activityActionEvents") 操作
-   #activityModal.modal.fade
-    .modal-dialog
-        .modal-content
-          form.form-horizontal(role="form",data-add="true")#activityForm
-            .modal-header
-              h4 企业过程信息
-            .modal-body 
-              .form-group
-                  label.col-sm-2.control-label ID
-                  .col-sm-8
-                    input.form-control(name="id",type="text")
-              .form-group
-                  label.col-sm-2.control-label 活动层级
-                  .col-sm-8
-                    select.form-control(name="level")
-                      option(value="1") 1
-                      option(value="2") 2
-                      option(value="3") 3
-              .form-group
-                  label.col-sm-2.control-label 上层活动ID
-                  .col-sm-8
-                    select.form-control(name="upper_activity")
-                      option(value="1") 1
-                      option(value="2") 2
-                      option(value="3") 3
-                      option(value="4") 4
-                      option(value="5") 5
-              .form-group
-                  label.col-sm-2.control-label 活动编号
-                  .col-sm-8
-                    input.form-control(name="activity_number",type="text")
-              .form-group
-                  label.col-sm-2.control-label 活动
-                  .col-sm-8
-                    input.form-control(name="activity",type="text")
-              .form-group
-                  label.col-sm-2.control-label 活动描述
-                  .col-sm-8
-                    textarea.form-control(name="activity_description",type="text")
-              .form-group
-                  label.col-sm-2.control-label 活动类型
-                  .col-sm-8
-                    select.form-control(name="type",type="text")
-                      option(value="1") 飞机级
-                      option(value="2") 系统级
-              .form-group
-                  label.col-sm-2.control-label 输入
-                  .col-sm-8
-                    textarea.form-control(name="input",type="text")
-              .form-group
-                  label.col-sm-2.control-label 输出
-                  .col-sm-8
-                    textarea.form-control(name="output",type="text")
-              .form-group
-                  label.col-sm-2.control-label 任务
-                  .col-sm-8
-                    textarea.form-control(name="task",type="text",rows="3")
-              .form-group
-                  label.col-sm-2.control-label 执行人
-                  .col-sm-8
-                    select.form-control(name="executor")
-                      option(value="1") 市场研究
-                      option(value="2") 系统工程
-                      option(value="3") 市场和销售
-                      option(value="4") 总体气动
-                      option(value="5") 各系统工作包
+link(rel="stylesheet",href="//aui-cdn.atlassian.com/aui-adg/5.9.17/css/aui.min.css",media="all")
+script(src="https://ac-getting-started.atlassian.net/atlassian-connect/all.js")
+script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
+script(src="//aui-cdn.atlassian.com/aui-adg/5.9.17/js/aui.min.js")
+body.aui-page-focused.aui-page-focused-xlarge
+  #page
+    section#content
+      header.aui-page-header
+        .aui-page-header-inner
+        .aui-page-header-main
+          h2 Example board configuration page
+          p#custom-message This is an example configuration page for board ID: #{id} with board type: #{type}
+script#connect-loader(data-options="sizeToParent:true;",src="js/jira.js")
 
-              .form-group
-                  label.col-sm-2.control-label 所处阶段
-                  .col-sm-8
-                    input.form-control(name="stage",type="text")
-              .form-group
-                  label.col-sm-2.control-label 条线
-                  .col-sm-8
-                    input.form-control(name="line",type="text")
-              .form-group
-                  label.col-sm-2.control-label 工具
-                  .col-sm-8
-                     input.form-control(name="tool",type="text")
-              .form-group
-                  label.col-sm-2.control-label 方法
-                  .col-sm-8
-                    input.form-control(name="method",type="text")
-            .modal-footer
-                button.btn.btn-deafult(type="button",data-dismiss="modal") 关闭
-                button.btn.btn-success(type="submit") 保存 
-  //- script(src='build/activity.min.js')
-  script(src='js/activity.js')
+
         
