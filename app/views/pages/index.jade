@@ -4,27 +4,40 @@ block content
   .site-body
     .jumbotron
       .container
-          h1.display-3 项目中心
-          p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
+        h2 全生命周期产品研制系统（LCPDS）
+        p(style="padding-left:30px;") 欢迎进入 LCPDS， LCPDS 是中国商飞公司用于进行产品研制过程的工具，为企业项目运行机制和绩效机制的工具，由企业过程资产库和项目中心组成。
     .container
-        .row
-            .col-md-4
-                .card
-                    .card-body
-                        h4.card-title Head1
-                        p.card-text Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. 
-                        a.btn.btn-primary(href="#") Go somewhere
-            .col-md-4
-                .card
-                    .card-body
-                        h4.card-title Head2
-                        p.card-text Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. 
-                        a.btn.btn-primary(href="#") Go somewhere
-            .col-md-4
-                .card
-                    .card-body
-                        h4.card-title Head3
-                        p.card-text Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. 
-                      a.btn.btn-primary(href="#") Go somewhere
+      .row
+        .col-md-6(style="padding-right:50px;")
+          .row
+            .card(style="background-color:#eee;padding:10px;")
+              .card-body
+                h3.card-title 通用研制程序
+                p.card-text(style="text-indent:25px;line-height:20px;margin-bottom:10px;") 通用研制程序定义了“民用飞机产品” 系统的通用生命周期过程，由子阶段划分和评审门组成，项目管理通过考核决策门的状态，控制系统成熟度。
+                a.btn.btn-primary(href="/stage") 进入
+          .row(style="margin-top:20px;")
+            .card(style="background-color:#eee;padding:10px;")
+              .card-body
+                h3.card-title 研制程序过程集
+                p.card-text(style="text-indent:25px;line-height:20px;margin-bottom:10px;") 通用研制过程集定义了研制“民用飞机产品”系统所必须的研制活动的集合。这些研制活动遵循系统工程要求，符合产品研制规律。
+                a.btn.btn-primary(href="/activity") 进入
+          .row(style="margin-top:20px;")
+            .card(style="background-color:#eee;padding:10px;")
+              .card-body
+                h3.card-title 研制活动工序方法
+                p.card-text(style="text-indent:25px;line-height:20px;margin-bottom:10px;") 研制活动工具方法具体包括研制活动中所需要的工具、方法，包括但不限于模版、检查单、指南、手册、软件平台与工具等
+                a.btn.btn-primary(href="/") 进入
+        .col-md-6
+          .row
+            .card(style="background-color:#eee;padding:10px;")
+              .card-body
+                h3.card-title 项目中心
+                p.card-text(style="text-indent:25px;line-height:20px;margin-bottom:10px;") 目前包括 ARJ、 919， 929 等
+                a.btn.btn-primary(href="/project") 进入
+            each item in projects
+              .card(style="background-color:#eee;padding:10px;margin-top:20px;")
+                .card-body
+                    h4.card-title #{item.name}
+                    p.card-text(style="text-indent:25px;line-height:20px;margin-bottom:10px;") #{item.background}
+                    a.btn.btn-primary(href='/project/detail?id='+item._id) 进入
           
-

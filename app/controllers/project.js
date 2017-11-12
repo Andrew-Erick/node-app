@@ -128,3 +128,18 @@ exports.detail=function(req,res){
     })
   })
 }
+exports.create=function(req,res){
+  // var arg=URL.parse(req.url).query;
+  // var id=querystring.parse(arg).id;
+  // Project.findById(id,function(err,project){
+  //   if(err){
+  //     console.log(err)
+  //   }
+  //   var wbs=project.wbs==undefined?new Wbs():project.wbs;
+  //   var pbs=wbs.upper_pbs==undefined?new Pbs():wbs.upper_pbs;
+  //   var obs=wbs.upper_obs==undefined?new Obs():wbs.upper_obs;
+    getProject(function(projects){
+      res.render('project/create',{projects:projects})
+    })
+  // })
+}

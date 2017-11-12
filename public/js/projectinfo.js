@@ -23,3 +23,15 @@ $("#save").on('click',function(e){
     }
   })
 })
+$("#export").on('click',function(e){
+  e.preventDefault();
+  var $form=$("form");
+  var id=$form.find("[name=_id]").val();
+  console.log("id",id);
+  if(id){
+    var data={id:id};
+    $.post("/projectserver/export",data).done(function(res){
+       console.log("success");
+    })
+  }
+})

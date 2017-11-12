@@ -1,16 +1,8 @@
-link(rel="stylesheet",href="//aui-cdn.atlassian.com/aui-adg/5.9.17/css/aui.min.css",media="all")
-script(src="https://ac-getting-started.atlassian.net/atlassian-connect/all.js")
-script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js")
-script(src="//aui-cdn.atlassian.com/aui-adg/5.9.17/js/aui.min.js")
-body.aui-page-focused.aui-page-focused-xlarge
-  #page
-    section#content
-      header.aui-page-header
-        .aui-page-header-inner
-        .aui-page-header-main
-          h2 Example board configuration page
-          p#custom-message This is an example configuration page for board ID: #{id} with board type: #{type}
-script#connect-loader(data-options="sizeToParent:true;",src="js/jira.js")
-
-
-        
+extends ../../layout
+block content
+  .container-fluid
+    .row
+      main.col-sm-12.ml-sm-auto.col-md-12.pt-2(role="main")
+        h4 JIRA信息
+        hr
+        iframe(src="http://localhost:8000/projects/"+type,style="width:100%;height:500px")

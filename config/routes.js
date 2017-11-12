@@ -88,7 +88,7 @@ module.exports = function(app) {
     app.post('/project/edit',multipartyMiddleware,Project.save);
     app.delete('/project/delete',Project.delete);
     app.get('/project/detail',Project.detail);
-
+    app.get('/project/create',Project.create);
     // pbs
     app.get('/pbs',Pbs.index);
     app.get('/pbs/data',Pbs.list);

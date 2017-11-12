@@ -10,26 +10,28 @@ block content
             form.form-horizontal(style="height:500px;")
               .form-group
                 label.col-sm-3.control-label 项目ID
-                .col-sm-8
+                .col-sm-9
                   input.hidden(name="_id",value=project._id)
                   input.form-control(name="id",value=project.id,disabled="true")
               .form-group
                 label.col-sm-3.control-label 项目名称
-                .col-sm-8
+                .col-sm-9
                   input.form-control(name="name",value=project.name,disabled="true")
               .form-group
                 label.col-sm-3.control-label 项目背景
-                .col-sm-8
+                .col-sm-9
                   textarea.form-control(name="background",disabled="true",type="text",rows="4") #{project.background}
               .form-group
                 label.col-sm-3.control-label 项目目标与约束
-                .col-sm-8
+                .col-sm-9
                   textarea.form-control(name="rules",disabled="true",type="text",rows="4") #{project.rules}
               .form-group
-                .col-sm-3.col-sm-offset-8
+                .col-sm-6.col-sm-offset-6
                   a#edit.btn.btn-info(href="javascript:void(0)") 编辑
                   span &nbsp;&nbsp;
                   a#save.btn.btn-success(href="javascript:void(0)",disabled="true") 保存
+                  span &nbsp;&nbsp;
+                  a#export.btn.btn-danger(href="javascript:void(0)") 生成Project
       .col-lg-6
         .panel.panel-success
           .panel-heading

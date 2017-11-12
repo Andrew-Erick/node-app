@@ -47,7 +47,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
                     //-             a.dropdown-item(href='/obsuser') OBS人员数据
                     //- li.divider(role="separator")
                     li
-                        a.dropdown-item(href='/project') 新建项目
+                        a.dropdown-item(href='/project/create') 新建项目
                     each item in projects
                         li.divider(role="separator")
                         li.dropdown-submenu
@@ -60,7 +60,14 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
                                     a.dropdown-item(href='/projectserver?id='+item._id) 项目集成立计划
                                 li.divider(role="separator")
                                 li
-                                    a.dropdown-item(href='#') 项目任务系统
+                                    if (item.name=="ARJ")
+                                        a.dropdown-item(href='/jira?type=TA') 项目任务系统
+                                    else if (item.name=="C919")
+                                       a.dropdown-item(href='/jira?type=TC') 项目任务系统 
+                                    else if (item.name=="C929")
+                                        a.dropdown-item(href='/jira?type=TB') 项目任务系统 
+                                    else
+                                        a.dropdown-item(href='/jira') 项目任务系统 
                         
                         
             //- li.nav-item.dropdown
